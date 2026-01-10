@@ -1,22 +1,21 @@
+import { normalizeToIndex100 } from "../services/normalizationService.js";
 import { 
   loadBitcoinPriceSeries,
-  loadGermanyInflationSeries 
+  loadGermanyInflationSeries
 } from "../services/dataService.js";
 
 export async function bootstrap() {
   console.log("App bootstrapped");
 
   try {
-    const cryptos = await loadBitcoinPriceSeries();
-    const inflations = await loadGermanyInflationSeries();
+    const btc = await loadBitcoinPriceSeries();
+    const inflation = await loadGermanyInflationSeries();
 
-    console.log("BTC series:", cryptos);
-    console.log("Points count:", cryptos.points.length);
+    const btcIndex = normalizeToIndex100(btc);
+    const inflationIndex = normalizeToIndex100(inflation);
 
-    console.log("----------------------------------");
-
-    console.log("Inflation points:", inflations.points.length);
-    console.log("Inflation sample:", inflations.points.slice(-5));
+    console.log("BTC index sample:", btcIndex.points.slice(0, 3));
+    console.log("Inflation index sample:", inflationIndex.points.slice(0, 3));
   } catch (err) {
     console.error("Data load failed:", err);
   }
