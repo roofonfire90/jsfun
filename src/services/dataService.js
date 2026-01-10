@@ -4,7 +4,7 @@ import { fetchJson } from "./apiClient.js";
 // CoinGecko API endpoint for Bitcoin price data over the last 365 days
 const BTC_URL = "https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=eur&days=365";
 
-export async function loadBitcoinPriceSeries() {
+const loadBitcoinPriceSeries = async () => {
   const raw = await fetchJson(BTC_URL);
 
   // raw.prices = [ [timestamp(ms), price], ... ]
@@ -24,7 +24,7 @@ export async function loadBitcoinPriceSeries() {
 // World Bank API endpoint for Germany inflation data
 const INFLATION_DE_URL = "https://api.worldbank.org/v2/country/DEU/indicator/FP.CPI.TOTL.ZG?format=json";
 
-export async function loadGermanyInflationSeries() {
+const loadGermanyInflationSeries = async () => {
   const raw = await fetchJson(INFLATION_DE_URL);
 
   const records = raw[1]
@@ -42,3 +42,8 @@ export async function loadGermanyInflationSeries() {
     points: records,
   };
 }
+
+export {
+  loadBitcoinPriceSeries,
+  loadGermanyInflationSeries,
+};

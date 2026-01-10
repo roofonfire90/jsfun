@@ -1,4 +1,4 @@
-export function normalizeToIndex100(series) {
+const normalizeToIndex100 = (series) => {
   if (!series.points.length) {
     throw new Error("Cannot normalize empty series");
   }
@@ -16,3 +16,5 @@ export function normalizeToIndex100(series) {
     points: normalizedPoints,
   };
 }
+
+export { normalizeToIndex100 };
