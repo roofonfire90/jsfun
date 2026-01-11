@@ -1,49 +1,120 @@
 import { fetchJson } from "./apiClient.js";
+import { MSCI_EP, BTC_EP } from "../constants/api_endpoints.js";
+import ErrorMessages from "../constants/exception_messages.js";
 
+/**
+ * ============================================================
+ * Daten-Service: Markt-Zeitreihen
+ * ============================================================
+ *
+ * Grundannahmen / Semantik:
+ *
+ * 1) Der MSCI World Index gibt das Zeitraster vor (Börsentage).
+ * 2) MSCI-Daten sind unvollständig:
+ *    - keine Wochenenden
+ *    - keine Feiertage
+ * 3) Bitcoin-Daten sind vollständig (täglich).
+ * 4) Start- und Enddatum werden ausschließlich aus den
+ *    MSCI-Daten abgeleitet.
+ * 5) Ohne gültigen Zeitraum ist keine konsistente
+ *    Vergleichszeitreihe möglich.
+ * 6) Fehler beim Laden oder bei inkonsistenten Daten
+ *    werden durch Exceptions signalisiert.
+ *
+ * Konsequenz:
+ * - BTC-Daten werden ausschließlich im Zeitraum der
+ *   MSCI-Daten geladen.
+ * - Die eigentliche Datensymmetrie (Filterung) erfolgt
+ *   später im Aggregation-Service.
+ */
 
-// CoinGecko API endpoint for Bitcoin price data over the last 365 days
-const BTC_URL = "https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=eur&days=365";
+// Global gültiger Zeitraum (wird durch MSCI initialisiert)
+let startDate = null;
+let endDate   = null;
 
-const loadBitcoinPriceSeries = async () => {
-  const raw = await fetchJson(BTC_URL);
+/**
+ * Lädt MSCI World Index-Daten (Yahoo Finance, via Proxy).
+ *
+ * Verantwortlichkeiten:
+ * - Abruf der Rohdaten
+ * - Extraktion der Zeitpunkte und Schlusskurse
+ * - Ableitung des globalen Zeitraums (Start / Ende)
+ *
+ * @returns {Object} Zeitreihe des MSCI World Index
+ */
+const loadMSCIWorldSeries = async () => {
+  const raw = await fetchJson(MSCI_EP);
 
-  // raw.prices = [ [timestamp(ms), price], ... ]
-  const points = raw.prices.map(([ts, price]) => ({
-    timestamp: new Date(ts),
-    value: price,
+  // Defensive Prüfung der Yahoo-Response-Struktur
+  if (!raw?.chart?.result?.length) {
+    throw new Error(ErrorMessages.MSCI_DATA_LOAD_FAIL);
+  }
+
+  const result = raw.chart.result[0];
+  const timestamps = result.timestamp;
+  const closes = result.indicators.quote[0].close;
+
+  // Zeitreihe aufbauen (null-Werte verwerfen)
+  const points = timestamps
+    .map((ts, i) => ({
+      // Yahoo liefert Sekunden → intern mit Date-Objekten arbeiten
+      timestamp: new Date(ts * 1000),
+      value: closes[i],
+    }))
+    .filter((p) => p.value !== null);
+
+  if (points.length === 0) {
+    throw new Error(ErrorMessages.MSCI_SET_TIMEFRAME_FAIL);
+  }
+
+  // Globalen Zeitraum festlegen (bindend für alle weiteren Daten)
+  startDate = points[0].timestamp;
+  endDate   = points[points.length - 1].timestamp;
+
+  return {
+    id: "msciworld",
+    label: "MSCI World Index",
+    unit: "index",
+    points,
+  };
+};
+
+/**
+ * Lädt Bitcoin-Preisdaten (USDC) im durch MSCI definierten Zeitraum.
+ *
+ * Voraussetzung:
+ * - loadMSCIWorldSeries() wurde vorher erfolgreich ausgeführt
+ *
+ * @returns {Object} Bitcoin-Zeitreihe
+ */
+const loadBTCPriceSeries = async () => {
+  if (!(startDate instanceof Date) || !(endDate instanceof Date)) {
+    throw new Error(ErrorMessages.MSCI_SET_TIMEFRAME_FAIL);
+  }
+
+  // BTC-Daten ausschließlich im MSCI-Zeitraum laden
+  const raw = await fetchJson(
+    BTC_EP(startDate.getTime(), endDate.getTime())
+  );
+
+  if (!raw || raw.length === 0) {
+    throw new Error(ErrorMessages.BTC_DATA_LOAD_FAIL);
+  }
+
+  const points = raw.map((kline) => ({
+    timestamp: new Date(kline[0]), // Open-Time (ms)
+    value: Number(kline[4]),       // Close-Preis
   }));
 
   return {
-    id: "btc-usd",
-    label: "Bitcoin Price (EUR)",
-    unit: "USD",
+    id: "btc-usdc",
+    label: "Bitcoin Price (USDC)",
+    unit: "USDC",
     points,
   };
-}
-
-// World Bank API endpoint for Germany inflation data
-const INFLATION_DE_URL = "https://api.worldbank.org/v2/country/DEU/indicator/FP.CPI.TOTL.ZG?format=json";
-
-const loadGermanyInflationSeries = async () => {
-  const raw = await fetchJson(INFLATION_DE_URL);
-
-  const records = raw[1]
-    .filter((r) => r.value !== null)
-    .map((r) => ({
-      timestamp: new Date(`${r.date}-01-01`),
-      value: r.value,
-    }))
-    .reverse(); // chronologisch
-
-  return {
-    id: "inflation-de",
-    label: "Inflation Germany (%)",
-    unit: "%",
-    points: records,
-  };
-}
+};
 
 export {
-  loadBitcoinPriceSeries,
-  loadGermanyInflationSeries,
+  loadMSCIWorldSeries,
+  loadBTCPriceSeries,
 };
