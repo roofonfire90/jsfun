@@ -4,7 +4,7 @@ import { initNewsPanel } from "./newsPanel.js";
 const panelCache = new Map();
 
 export async function loadPanel(name) {
-  const container = document.getElementById("panel-content");
+  const container = document.querySelector("#panel-content");
   if (!container) {
     throw new Error("panel-content Container nicht gefunden");
   }

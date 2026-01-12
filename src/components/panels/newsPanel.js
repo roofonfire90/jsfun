@@ -1,138 +1,116 @@
 import { fetchCryptoNews } from "../../api/newsApi.js";
-import { createNewsState } from "./newsState.js";
+import { newsStore } from "../../state/store.js";
 import { renderNewsList } from "./newsRenderer.js";
 
 let initialized = false;
 
+/**
+ * Initialisiert das News-Panel.
+ * - verwendet globalen newsStore
+ * - kein lokaler State
+ * - deterministisches Verhalten
+ */
 export async function initNewsPanel(panelRoot) {
   if (initialized) return;
   initialized = true;
 
-  const listEl = panelRoot.querySelector(".news-list");
-  const input = panelRoot.querySelector(".news-search input");
+  const listEl   = panelRoot.querySelector(".news-list");
+  const input    = panelRoot.querySelector(".news-search input");
   const clearBtn = panelRoot.querySelector(".clear-search");
-  const loader = panelRoot.querySelector(".news-loader");
+  const loader   = panelRoot.querySelector(".news-loader");
+  const sortBtns = panelRoot.querySelectorAll(".sort-btn");
 
-  const state = createNewsState();
+  /* --------------------------------------------------
+     1. Daten laden (Cache → Fetch)
+     -------------------------------------------------- */
+  if (!newsStore.hydrateFromCache()) {
+    const articles = await fetchCryptoNews();
+    newsStore.setNews(articles);
+  }
 
-  const sortButtons = panelRoot.querySelectorAll(".sort-btn");
+  render();
 
-  sortButtons.forEach(btn => {
+  /* --------------------------------------------------
+     2. Suche
+     -------------------------------------------------- */
+  input.addEventListener("input", () => {
+    newsStore.setSearchTerm(input.value);
+    render();
+  });
+
+  clearBtn.addEventListener("click", () => {
+    input.value = "";
+    newsStore.setSearchTerm("");
+    render();
+  });
+
+  /* --------------------------------------------------
+     3. Sortierung
+     -------------------------------------------------- */
+  sortBtns.forEach(btn => {
     btn.addEventListener("click", () => {
-      const type = btn.dataset.sort;
+      const field = btn.dataset.sort;
+      const current = newsStore.getMeta();
 
-      if (state.sort.by === type) {
-        // Richtung toggeln
-        state.sort.dir = state.sort.dir === "asc" ? "desc" : "asc";
-      } else {
-        state.sort.by = type;
-        state.sort.dir = type === "date" ? "desc" : "asc";
+      // Richtung bestimmen
+      let direction = "asc";
+      if (field === "date") direction = "desc";
+
+      // Toggle bei erneutem Klick
+      if (
+        newsStore.getMeta().sort?.field === field &&
+        newsStore.getMeta().sort?.direction === direction
+      ) {
+        direction = direction === "asc" ? "desc" : "asc";
       }
+
+      newsStore.setSort(field, direction);
 
       // UI-State
-      sortButtons.forEach(b => b.classList.remove("active"));
+      sortBtns.forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
 
-      // Label anpassen
-      if (type === "date") {
-        btn.textContent = state.sort.dir === "asc" ? "Datum ↑" : "Datum ↓";
+      // Button-Label
+      if (field === "date") {
+        btn.textContent = direction === "asc" ? "Datum ↑" : "Datum ↓";
       }
 
-      if (type === "alpha") {
-        btn.textContent = state.sort.dir === "asc" ? "A–Z" : "Z–A";
+      if (field === "alpha") {
+        btn.textContent = direction === "asc" ? "A–Z" : "Z–A";
       }
 
       render();
     });
   });
 
-  // ---------------------------
-  // Load Data
-  // ---------------------------
-  state.all = await fetchCryptoNews();
-  state.filtered = state.all;
-
-  render();
-
-  // ---------------------------
-  // Search
-  // ---------------------------
-  input.addEventListener("input", () => {
-    state.searchTerm = input.value.trim().toLowerCase();
-    state.visibleCount = 50;
-
-    state.filtered = state.all.filter(n =>
-      n.title.toLowerCase().includes(state.searchTerm)
-    );
-
-    render();
-  });
-
-  clearBtn.addEventListener("click", () => {
-    input.value = "";
-    input.dispatchEvent(new Event("input"));
-  });
-
-  // ---------------------------
-  // Accordion
-  // ---------------------------
+  /* --------------------------------------------------
+     4. Accordion (Event Delegation)
+     -------------------------------------------------- */
   listEl.addEventListener("click", e => {
     const title = e.target.closest(".news-title");
     if (!title) return;
-    title.closest(".news-item").classList.toggle("open");
+    title.closest(".news-item")?.classList.toggle("open");
   });
 
-  // ---------------------------
-  // Lazy Loading (Scroll)
-  // ---------------------------
+  /* --------------------------------------------------
+     5. Lazy Loading (UI-only)
+     -------------------------------------------------- */
   panelRoot.addEventListener("scroll", () => {
     if (
       panelRoot.scrollTop + panelRoot.clientHeight >=
       panelRoot.scrollHeight - 40
     ) {
-      state.visibleCount += 50;
+      newsStore.loadMore();
       render();
     }
   });
 
-  // ---------------------------
-  // Sortieren
-  // ---------------------------
-  function sortItems(items, sort) {
-    const sorted = [...items];
-
-    if (sort.by === "date") {
-      sorted.sort((a, b) => {
-        const da = new Date(a.pubDate).getTime();
-        const db = new Date(b.pubDate).getTime();
-        return sort.dir === "asc" ? da - db : db - da;
-      });
-    }
-
-    if (sort.by === "alpha") {
-      sorted.sort((a, b) => {
-        const ta = a.title.toLowerCase();
-        const tb = b.title.toLowerCase();
-        return sort.dir === "asc"
-          ? ta.localeCompare(tb)
-          : tb.localeCompare(ta);
-      });
-    }
-
-    return sorted;
-  }
-
-  // ---------------------------
-  // Render
-  // ---------------------------
+  /* --------------------------------------------------
+     6. Render
+     -------------------------------------------------- */
   function render() {
-    const sorted = sortItems(state.filtered, state.sort);
-    const visible = sorted.slice(0, state.visibleCount);
-
+    const visible = newsStore.getVisible();
     renderNewsList(listEl, visible);
-
-    loader.style.display =
-      state.visibleCount < sorted.length ? "block" : "none";
+    loader.style.display = newsStore.hasMore() ? "block" : "none";
   }
-
 }
