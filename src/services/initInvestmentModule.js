@@ -1,4 +1,4 @@
-import { renderProfitLossDonutChart } from "../components/charts/ProfitLossChart.js";
+import { renderInvestmentComparisonChart } from "../components/charts/ProfitLossChart.js";
 
 /**
  * Initialisiert den Investment-Calculator inklusive Donut-Chart.
@@ -9,7 +9,7 @@ const initInvestmentModule = (msciSeries, btcSeries, donutContainer) => {
   const result = document.querySelector("#investment-result");
 
   // Initialer Placeholder-Donut
-  renderProfitLossDonutChart(donutContainer, msciSeries, btcSeries, null);
+  renderInvestmentComparisonChart(donutContainer, msciSeries, btcSeries, null);
 
   button.addEventListener("click", () => {
     const amount = Number(input.value);
@@ -20,7 +20,7 @@ const initInvestmentModule = (msciSeries, btcSeries, donutContainer) => {
       return;
     }
 
-    renderProfitLossDonutChart(donutContainer, msciSeries, btcSeries, amount);
+    renderInvestmentComparisonChart(donutContainer, msciSeries, btcSeries, amount);
   });
 };
 

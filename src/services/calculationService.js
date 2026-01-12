@@ -1,4 +1,4 @@
-import { renderProfitLossDonutChart } from "../components/charts/ProfitLossChart.js";
+import { renderInvestmentComparisonChart } from "../components/charts/ProfitLossChart.js";
 
 /**
  * Berechnet Endwert und Gewinn einer Investition.
@@ -65,7 +65,7 @@ const initInvestmentModule = (msciSeries, btcSeries) => {
     );
 
     result.classList.remove("hidden");
-    renderProfitLossDonutChart(chart, msciSeries, btcSeries, amount);
+    renderInvestmentComparisonChart(chart, msciSeries, btcSeries, amount);
   };
 
   // --------------------------------------------------

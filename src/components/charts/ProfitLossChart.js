@@ -2,12 +2,12 @@ import Highcharts from "highcharts";
 import ErrorMessages from "../../constants/exception_messages";
 
 /**
- * Rendert oder aktualisiert den Profit/Loss Donut Chart
+ * Grouped Column Chart
  *
- * - investmentAmount == null → Placeholder (Ghost-Donut)
- * - investmentAmount > 0     → Auswertung BTC vs MSCI
+ * Grau  = Investment (fix)
+ * Grün  = Endwert (Investment + Gewinn)
  */
-const renderProfitLossDonutChart = (
+const renderInvestmentComparisonChart = (
   container,
   msciSeries,
   btcSeries,
@@ -17,129 +17,150 @@ const renderProfitLossDonutChart = (
     throw new Error(ErrorMessages.MISSING_COMPARISON_CONTAINER);
   }
 
-// Placeholder-State (vor Auswertung)
-if (!investmentAmount || investmentAmount <= 0) {
-  Highcharts.chart(container, {
-    chart: {
-      type: "pie",
-      backgroundColor: "transparent",
-    },
-
-    title: {
-      text: "Investitionsvergleich",
-    },
-
-    subtitle: {
-      text: "Bitte Betrag eingeben und auswerten",
-      style: { color: "#6b7280", fontSize: "12px" },
-    },
-
-    accessibility: { enabled: false },
-    tooltip: { enabled: false },
-
-    plotOptions: {
-      pie: {
-        innerSize: "50%",           // Donut-Loch
-        borderWidth: 2,             // sichtbarer Ring
-        borderColor: "#8cb6f5",     // Umrissfarbe
-        dataLabels: { enabled: false },
-        states: {
-          hover: { enabled: false },
-          inactive: { enabled: false },
-        },
+  // ----------------------------------------------------------
+  // Placeholder
+  // ----------------------------------------------------------
+  if (!investmentAmount || investmentAmount <= 0) {
+    Highcharts.chart(container, {
+      chart: { type: "column", backgroundColor: "transparent" },
+      title: { text: "Investitionsvergleich" },
+      subtitle: {
+        text: "Bitte Betrag eingeben und auswerten",
+        style: { color: "#6b7280", fontSize: "12px" },
       },
-    },
+      xAxis: { categories: ["MSCI World", "Bitcoin"] },
+      yAxis: { visible: false },
+      tooltip: { enabled: false },
+      series: [],
+    });
+    return;
+  }
 
-    series: [
-      {
-        name: "Placeholder",
-        enableMouseTracking: false,
-        data: [
-          {
-            y: 1,
-            color: "#f3f4f6",        // Füllung
-          },
-        ],
-      },
-    ],
-  });
-
-  return;
-}
-
-  // Berechnung
-  const calcFinalValue = (series) => {
+  // ----------------------------------------------------------
+  // Berechnung Endwerte
+  // ----------------------------------------------------------
+  const calcEndValue = (series) => {
     const start = series.points[0].value;
-    const end   = series.points[series.points.length - 1].value;
+    const end   = series.points.at(-1).value;
     return investmentAmount * (end / start);
   };
 
-  const msciFinal = calcFinalValue(msciSeries);
-  const btcFinal  = calcFinalValue(btcSeries);
+  const msciEnd = calcEndValue(msciSeries);
+  const btcEnd  = calcEndValue(btcSeries);
 
-  // Finaler Donut
+  // ----------------------------------------------------------
+  // Farben
+  // ----------------------------------------------------------
+  const COLOR_INVESTMENT = "#9ca3af"; // Grau
+  const COLOR_ENDVALUE   = "#22c55e"; // Grün
+
+  // ----------------------------------------------------------
+  // Chart
+  // ----------------------------------------------------------
   Highcharts.chart(container, {
     chart: {
-      type: "pie",
+      type: "column",
       backgroundColor: "transparent",
     },
 
     title: {
-      text: "Anteil am Endwert",
+      text: "Was wäre aus deiner Investition geworden?",
     },
 
     subtitle: {
-      text: `Investition: ${investmentAmount.toLocaleString()} €`,
+      text: `Startkapital: ${investmentAmount.toLocaleString("de-DE")} €`,
     },
 
-    accessibility: {
-      enabled: false,
+    accessibility: { enabled: false },
+
+    xAxis: {
+      categories: ["MSCI World", "Bitcoin"],
     },
 
-    tooltip: {
-      pointFormat: "<b>{point.y:,.2f} €</b> ({point.percentage:.1f} %)",
+    yAxis: {
+      min: 0,
+      title: { text: "Wert (€)" },
+    },
+
+    legend: {
+      align: "center",
+      verticalAlign: "bottom",
     },
 
     plotOptions: {
-      pie: {
-        innerSize: "60%",
-        borderWidth: 0,
-        dataLabels: {
-          format: "{point.name}<br/><b>{point.percentage:.1f} %</b>",
-        },
+      column: {
+        borderRadius: 6,
+        pointPadding: 0.15,
+        groupPadding: 0.2,
+      },
+    },
+
+    tooltip: {
+      shared: true,
+      formatter() {
+        const investment = investmentAmount;
+        const endValue =
+          this.points.find(p => p.series.name === "Endwert")?.y ?? 0;
+
+        const profit = endValue - investment;
+        const percent = (profit / investment) * 100;
+
+        return `
+          <b>${this.x}</b><br/>
+          Investment: ${investment.toFixed(2)} €<br/>
+          Gewinn: <b>${profit.toFixed(2)} € (${percent.toFixed(1)} %)</b><br/>
+          Endwert: <b>${endValue.toFixed(2)} €</b>
+        `;
       },
     },
 
     series: [
+      // ------------------------------------------------------
+      // Investment (grau)
+      // ------------------------------------------------------
+      {
+        name: "Investment",
+        color: COLOR_INVESTMENT,
+        data: [
+          investmentAmount,
+          investmentAmount,
+        ],
+      },
+
+      // ------------------------------------------------------
+      // Endwert (grün)
+      // ------------------------------------------------------
       {
         name: "Endwert",
+        color: COLOR_ENDVALUE,
         data: [
           {
-            name: "Bitcoin",
-            y: btcFinal,
-            color: {
-              linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
-              stops: [
-                [0, "#1f2937"],
-                [1, "#4b5563"],
-              ],
+            y: msciEnd,
+            custom: {
+              percent: ((msciEnd - investmentAmount) / investmentAmount) * 100,
             },
           },
           {
-            name: "MSCI World",
-            y: msciFinal,
-            color: {
-              linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
-              stops: [
-                [0, "#9ca3af"],
-                [1, "#d1d5db"],
-              ],
+            y: btcEnd,
+            custom: {
+              percent: ((btcEnd - investmentAmount) / investmentAmount) * 100,
             },
           },
         ],
+        dataLabels: {
+          enabled: true,
+          formatter() {
+            return `+${this.point.custom.percent.toFixed(1)} %`;
+          },
+          style: {
+            color: "#ffffff",
+            fontWeight: "600",
+            textOutline: "none",
+          },
+        },
       },
     ],
   });
 };
 
-export { renderProfitLossDonutChart };
+export { renderInvestmentComparisonChart };
