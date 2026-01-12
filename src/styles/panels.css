@@ -1,0 +1,93 @@
+/* ======================================================
+   PANEL (visuelle Karte / Tab-Inhalt)
+   ====================================================== */
+.panels {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    width: 100%;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.panel {
+    background: var(--color-bg-panel);
+    border-radius: var(--radius-md);
+    padding: 32px;
+    display: none;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-top-left-radius: 0;
+}
+
+.panel.active {
+  display: block;
+}
+
+#panel-content {
+    width: 100%;
+}
+
+/* ======================================================
+   TYPO (Panel-spezifisch)
+   ====================================================== */
+.panel h1 {
+    margin-bottom: 8px;
+}
+
+.panel p {
+    color: #6b7280;
+}
+
+
+/* ======================================================
+   TABS HEADER
+   ====================================================== */
+.tabs-header {
+    display: flex;
+    gap: 8px;
+
+    /* wichtig für Verschmelzung */
+    margin-bottom: -1px;
+}
+
+.tab {
+    appearance: none;
+    background: var(--color-bg-page);
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+
+    padding: 10px 18px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--color-text-main);
+
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    cursor: pointer;
+
+    position: relative;
+    top: 1px;
+    /* wichtig für aktiven Tab */
+
+    transition:
+        background-color var(--duration-fast),
+        color var(--duration-fast),
+        border-color var(--duration-fast);
+}
+
+.tab.active {
+    background: var(--color-bg-panel);
+    border-color: rgba(0, 0, 0, 0.18);
+    border-bottom-color: transparent;
+
+    z-index: 2;
+}
+
+.tab:not(.active) {
+    opacity: 0.85;
+}
+
+.tab:not(.active):hover {
+    opacity: 1;
+    background: color-mix(in srgb,
+            var(--color-bg-page) 85%,
+            var(--color-bg-panel));
+}

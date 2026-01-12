@@ -1,0 +1,88 @@
+/* ======================================================
+   News Search
+   ====================================================== */
+
+.news-search {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.news-search input {
+  flex: 1;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-page);
+  font-size: 0.95rem;
+  color: var(--color-text-main);
+}
+
+.news-search input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.clear-search {
+  border: none;
+  background: transparent;
+  font-size: 1.2rem;
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+.clear-search:hover {
+  opacity: 1;
+}
+
+/* ======================================================
+   News List
+   ====================================================== */
+
+.news-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.news-item {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.news-title {
+  width: 100%;
+  padding: 14px 0;
+  background: none;
+  border: none;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  color: var(--color-text-main);
+}
+
+.news-title:hover {
+  text-decoration: underline;
+}
+
+.news-content {
+  display: none;
+  padding-bottom: 14px;
+  color: var(--color-text-subtle);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.news-item.open .news-content {
+  display: block;
+}
+
+/* ======================================================
+   Lazy Loader
+   ====================================================== */
+
+.news-loader {
+  margin-top: 16px;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  text-align: center;
+}

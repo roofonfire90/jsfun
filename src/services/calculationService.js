@@ -5,10 +5,10 @@ import { renderInvestmentComparisonChart } from "../components/charts/ProfitLoss
  */
 const calculateInvestmentResult = (series, investmentAmount) => {
   const startValue = series.points[0].value;
-  const endValue   = series.points.at(-1).value;
+  const endValue = series.points.at(-1).value;
 
   const finalValue = investmentAmount * (endValue / startValue);
-  const profit     = finalValue - investmentAmount;
+  const profit = finalValue - investmentAmount;
 
   return { finalValue, profit };
 };
@@ -32,12 +32,11 @@ const renderInvestmentCard = (title, finalValue, profit) => {
 
   const resultRow = document.createElement("div");
   resultRow.className = `investment-card-row ${profit >= 0 ? "positive" : "negative"}`;
-  resultRow.innerHTML = `<span>Ergebnis</span><strong>${
-    profit >= 0 ? "+" : ""
-  }${profit.toLocaleString("de-DE", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  })} €</strong>`;
+  resultRow.innerHTML = `<span>Ergebnis</span><strong>${profit >= 0 ? "+" : ""
+    }${profit.toLocaleString("de-DE", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })} €</strong>`;
 
   card.append(heading, valueRow, resultRow);
   return card;
@@ -47,16 +46,16 @@ const renderInvestmentCard = (title, finalValue, profit) => {
  * Initialisiert den Investment-Calculator inkl. Default-State.
  */
 const initInvestmentModule = (msciSeries, btcSeries) => {
-  const input  = document.querySelector("#investment-amount");
+  const input = document.querySelector("#investment-amount");
   const button = document.querySelector("#investment-calc-btn");
   const result = document.querySelector("#investment-result");
-  const chart  = document.querySelector("#comparison-donut-chart");
+  const chart = document.querySelector("#comparison-donut-chart");
 
   if (!input || !button || !result || !chart) return;
 
   const render = (amount) => {
     const msci = calculateInvestmentResult(msciSeries, amount);
-    const btc  = calculateInvestmentResult(btcSeries, amount);
+    const btc = calculateInvestmentResult(btcSeries, amount);
 
     result.innerHTML = "";
     result.append(

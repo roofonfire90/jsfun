@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="de">
+
 <head>
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="/vite.svg" />
@@ -60,61 +61,23 @@
     </section>
 
     <!-- ======================================================
-         ZEILE 1 – Charts (MSCI | BTC | Vergleich Linie)
-         ====================================================== -->
-    <section class="section">
-      <div class="section-inner charts-row charts-row-3">
-        <div id="msci-chart" class="chart-box"></div>
-        <div id="bitcoin-chart" class="chart-box"></div>
-        <div id="comparison-line-chart" class="chart-box"></div>
+       PANELS / CONTENT AREA
+       ====================================================== -->
+    <section class="panels">
+
+      <!-- Tabs -->
+      <div class="tabs-header">
+        <button class="tab active" data-panel="finance">Finance</button>
+        <button class="tab" data-panel="news">News</button>
+        <button class="tab" data-panel="about">About</button>
       </div>
-    </section>
 
-    <!-- ======================================================
-         ZEILE 2 – Investment Calculator | Donut (Profit/Loss)
-         ====================================================== -->
-    <section class="section">
-      <div class="section-inner charts-row">
-
-        <!-- Calculator -->
-        <div class="investment-box">
-          <div class="investment-header">
-            Investitionsvergleich (Jahresende)
-          </div>
-
-          <div class="investment-input">
-            <label for="investment-amount">
-              Investitionsbetrag (€)
-            </label>
-            <input
-              id="investment-amount"
-              type="number"
-              min="0"
-              step="100"
-              placeholder="z. B. 100"
-            />
-          </div>
-
-          <button id="investment-calc-btn">
-            Auswerten
-          </button>
-
-          <!-- Ergebniscontainer (wird IMMER strukturiert befüllt) -->
-          <div
-            id="investment-result"
-            class="investment-result hidden">
-          </div>
-        </div>
-
-        <!-- Donut Chart (Ghost → Update nach Auswertung) -->
-        <div
-          id="comparison-donut-chart"
-          class="chart-box">
-        </div>
+      <!-- Panel Content -->
+      <div id="panel-content">
 
       </div>
-    </section>
 
+    </section>
   </main>
 
   <!-- ======================================================
@@ -152,4 +115,5 @@
        ====================================================== -->
   <script type="module" src="/src/main.js"></script>
 </body>
+
 </html>

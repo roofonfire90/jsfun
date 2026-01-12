@@ -29,7 +29,11 @@ const BTC_EP = (startTime, endTime) => {
   );
 };
 
+// Krypto-News
+const CRYPTO_NEWS_EP = "https://free-crypto-news.vercel.app/api/news";
+
 export {
   MSCI_EP,
   BTC_EP,
+  CRYPTO_NEWS_EP
 };

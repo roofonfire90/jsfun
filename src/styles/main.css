@@ -1,7 +1,9 @@
 @import "./theme.css";
-@import "./charts.css";
 @import "./hero.css";
+@import "./panels.css";
+@import "./charts.css";
 @import "./modal.css";
+@import "./news.css";
 
 /* ============================================================
    Global Variables
@@ -84,7 +86,7 @@ body {
   gap: 16px;
 }
 
-.investment-result > div {
+.investment-result>div {
   background: var(--color-bg-panel);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);

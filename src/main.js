@@ -1,5 +1,7 @@
-import { bootstrap } from "./app/bootstrap.js";
 import { initHeroCarousel } from "./components/hero/HeroCarousel.js";
+import { initTabs } from "./components/panels/tabs.js";
 
-initHeroCarousel();
-bootstrap();
+document.addEventListener("DOMContentLoaded", () => {
+  initTabs();
+  initHeroCarousel();
+});
