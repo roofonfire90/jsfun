@@ -38,18 +38,19 @@ const initInvestmentModule = (msciSeries, btcSeries) => {
     const btc  = calculateInvestmentResult(btcSeries, amount);
 
     result.innerHTML = `
-      <div>
-        <strong>MSCI World:</strong><br />
-        Endwert: ${msci.finalValue.toFixed(2)} €<br />
-        Ergebnis: ${msci.profit >= 0 ? "+" : ""}${msci.profit.toFixed(2)} €
+      <div class="investment-card">
+        <strong>MSCI World</strong>
+        <div>Endwert: ${msci.finalValue.toFixed(2)} €</div>
+        <div>Ergebnis: ${msci.profit >= 0 ? "+" : ""}${msci.profit.toFixed(2)} €</div>
       </div>
-      <br />
-      <div>
-        <strong>Bitcoin:</strong><br />
-        Endwert: ${btc.finalValue.toFixed(2)} €<br />
-        Ergebnis: ${btc.profit >= 0 ? "+" : ""}${btc.profit.toFixed(2)} €
+
+      <div class="investment-card">
+        <strong>Bitcoin</strong>
+        <div>Endwert: ${btc.finalValue.toFixed(2)} €</div>
+        <div>Ergebnis: ${btc.profit >= 0 ? "+" : ""}${btc.profit.toFixed(2)} €</div>
       </div>
     `;
+    
     result.classList.remove("hidden");
 
     renderProfitLossDonutChart(chart, msciSeries, btcSeries, amount);
