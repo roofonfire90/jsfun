@@ -54,12 +54,14 @@ body {
 
 .hero {
   width: 100%;
-  background: #ffffff;
-  border-bottom: 1px solid #e5e7eb;
+  height: 420px;
+  background: #f9fafb;
 }
 
 .hero-inner {
-  height: 420px;
+  height: 100%;
+  padding: 0;
+  display: flex;
 }
 
 /* ============================================================

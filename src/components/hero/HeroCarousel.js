@@ -30,7 +30,19 @@ export const initHeroCarousel = () => {
   const updateSlide = (index) => {
     currentIndex = index;
     track.style.transform = `translateX(-${index * 100}%)`;
-    setActiveDot(index);
+
+    // --- Dots: ACTIVE + ANIMATE strikt resetten ---
+    document.querySelectorAll(".hero-dots .dot").forEach((dot, i) => {
+      dot.classList.toggle("active", i === index);
+      dot.classList.remove("animate");
+    });
+
+    const activeDot = document.querySelector(".hero-dots .dot.active");
+    if (activeDot) {
+      activeDot.style.setProperty("--duration", `${intervalMs}ms`);
+      void activeDot.offsetWidth; // reflow
+      activeDot.classList.add("animate");
+    }
   };
 
   const nextSlide = () => {
