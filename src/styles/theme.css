@@ -1,0 +1,42 @@
+/* ======================================================
+   THEME TOKENS
+   ====================================================== */
+
+:root {
+  /* Brand */
+  --color-primary: #cf40f3;
+  --color-primary-muted: #eca4fa;
+
+  /* Backgrounds */
+  --color-bg-page: #ffffff;
+  --color-bg-panel: #ffffff;
+  --color-bg-soft: rgb(93, 179, 255);
+
+  /* Borders */
+  --color-border: #e5e7eb;
+  --color-border-soft: #ffffff;
+
+  /* Text */
+  --color-text-main: #111827;
+  --color-text-muted: #374151;
+  --color-text-subtle: #6b7280;
+
+  /* Hero */
+  --color-hero-bg: var(--color-bg-soft);
+  --color-hero-dot: var(--color-border-soft);
+  --color-hero-dot-active: var(--color-primary);
+
+  /* Modal */
+  --color-modal-backdrop: rgba(17, 24, 39, 0.6);
+  --color-modal-bg: #ffffff;
+
+  /* Motion */
+  --duration-slide: 6000ms;
+  --duration-fast: 200ms;
+  --duration-normal: 600ms;
+  --duration-slow: 800ms;
+
+  /* Radius */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+}

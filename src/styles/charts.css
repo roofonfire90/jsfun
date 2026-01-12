@@ -1,0 +1,56 @@
+/* ======================================================
+   HIGHCHARTS – GLOBAL STYLES
+   ====================================================== */
+
+/* Container muss IMMER voll füllen */
+.chart-box {
+  position: relative;
+}
+
+.chart-box .highcharts-container {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.chart-box .highcharts-root {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* ------------------------------------------------------
+   Text & Labels
+------------------------------------------------------ */
+
+.highcharts-title,
+.highcharts-subtitle,
+.highcharts-axis-labels text,
+.highcharts-axis-title {
+  fill: var(--color-text-muted) !important;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* ------------------------------------------------------
+   Grid & Axis
+------------------------------------------------------ */
+
+.highcharts-grid-line {
+  stroke: var(--color-border-soft);
+}
+
+.highcharts-axis-line {
+  stroke: var(--color-border);
+}
+
+/* ------------------------------------------------------
+   Tooltip
+------------------------------------------------------ */
+
+.highcharts-tooltip text {
+  fill: var(--color-text-main);
+}
+
+.highcharts-tooltip-box {
+  fill: var(--color-bg-panel);
+  stroke: var(--color-border);
+  rx: var(--radius-sm);
+}
