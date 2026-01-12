@@ -1,0 +1,89 @@
+/* ======================================================
+   HERO / CAROUSEL
+   ====================================================== */
+
+.hero {
+  background: #f9fafb;
+}
+
+.hero-inner {
+  padding: 4rem 0;
+  display: flex;
+  justify-content: center;
+}
+
+/* ----------------------------------
+   Carousel Layout
+----------------------------------- */
+
+.hero-carousel {
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero-viewport {
+  width: 100%;
+  overflow: hidden;
+}
+
+.hero-track {
+  display: flex;
+  transition: transform 600ms ease;
+}
+
+/* ----------------------------------
+   Slides
+----------------------------------- */
+
+.hero-slide {
+  flex: 0 0 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 220px;
+}
+
+.hero-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.hero-icon img {
+  width: 96px;
+  height: 96px;
+  opacity: 0.85;
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+
+.hero-icon:hover img {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+/* ----------------------------------
+   Navigation Dots
+----------------------------------- */
+
+.hero-dots {
+  display: flex;
+  gap: 10px;
+  margin-top: 1.5rem;
+}
+
+.hero-dots .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: none;
+  background: #d1d5db;
+  cursor: pointer;
+  transition: background 200ms ease;
+}
+
+.hero-dots .dot.active {
+  background: #2563eb;
+}
