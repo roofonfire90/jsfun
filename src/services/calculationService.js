@@ -1,7 +1,7 @@
 import { renderProfitLossDonutChart } from "../components/charts/ProfitLossChart";
 
 /**
- * Berechnet den Endwert einer Investition
+ * Berechnet Endwert und Gewinn einer Investition.
  */
 const calculateInvestmentResult = (series, investmentAmount) => {
   const startValue = series.points[0].value;
@@ -10,52 +10,33 @@ const calculateInvestmentResult = (series, investmentAmount) => {
   const finalValue = investmentAmount * (endValue / startValue);
   const profit     = finalValue - investmentAmount;
 
-  return {
-    finalValue,
-    profit,
-  };
+  return { finalValue, profit };
 };
 
 /**
- * Initialisiert das Investment-Modul
- *
- * @param {Object} msciSeries Rohdaten MSCI
- * @param {Object} btcSeries  Rohdaten BTC
+ * Initialisiert den Investment-Calculator inklusive Donut-Chart.
  */
 const initInvestmentModule = (msciSeries, btcSeries) => {
   const input  = document.querySelector("#investment-amount");
   const button = document.querySelector("#investment-calc-btn");
   const result = document.querySelector("#investment-result");
   const chart  = document.querySelector("#comparison-donut-chart");
-  
-  renderProfitLossDonutChart(
-    chart,
-    msciSeries,
-    btcSeries,
-    null
-  );
-  
+
+  // Initialer Placeholder-Donut
+  renderProfitLossDonutChart(chart, msciSeries, btcSeries, null);
+
   button.addEventListener("click", () => {
     const amount = Number(input.value);
 
-    // ---------------------------------------------
-    // Guard
-    // ---------------------------------------------
     if (!amount || amount <= 0) {
       result.textContent = "Bitte einen gültigen Investitionsbetrag eingeben.";
       result.classList.remove("hidden");
       return;
     }
 
-    // ---------------------------------------------
-    // Berechnung
-    // ---------------------------------------------
     const msci = calculateInvestmentResult(msciSeries, amount);
     const btc  = calculateInvestmentResult(btcSeries, amount);
 
-    // ---------------------------------------------
-    // Text-Ergebnis anzeigen
-    // ---------------------------------------------
     result.innerHTML = `
       <div>
         <strong>MSCI World:</strong><br />
@@ -71,15 +52,7 @@ const initInvestmentModule = (msciSeries, btcSeries) => {
     `;
     result.classList.remove("hidden");
 
-    // ---------------------------------------------
-    // Chart aktualisieren
-    // ---------------------------------------------
-    renderProfitLossDonutChart(
-      chart,
-      msciSeries,
-      btcSeries,
-      amount
-    );
+    renderProfitLossDonutChart(chart, msciSeries, btcSeries, amount);
   });
 };
 

@@ -1,23 +1,15 @@
 import ErrorMessages from "../constants/exception_messages";
+
 /**
  * Normalisiert eine Zeitreihe auf einen Index mit Basis 100.
  *
  * Zweck:
- * - Ermöglicht den direkten Vergleich unterschiedlicher Zeitreihen
- *   (z. B. Bitcoin vs. MSCI World), unabhängig von absoluten Werten
- *   oder unterschiedlichen Einheiten.
- *
- * Vorgehen:
- * - Der erste Datenpunkt wird als Basiswert (= 100) verwendet
- * - Alle folgenden Werte werden relativ zu diesem Startwert berechnet
- *
- * Wichtiger Hinweis:
- * - Diese Funktion ist NUR für Vergleichs-Charts gedacht
- * - Einzelcharts (BTC, MSCI separat) sollten NICHT normalisiert werden
+ * - Vergleich unterschiedlicher Zeitreihen unabhängig von Einheit
+ * - Ausschließlich für Vergleichs-Charts gedacht
  *
  * @param {Object} series
- * @param {Array<{timestamp: number, value: number}>} series.points
- * @returns {Object} normalisierte Zeitreihe mit Index-Werten
+ * @param {Array<{ timestamp: Date, value: number }>} series.points
+ * @returns {Object} Normalisierte Zeitreihe
  */
 const normalizeToIndex100 = (series) => {
   if (!series.points.length)

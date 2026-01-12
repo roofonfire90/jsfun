@@ -17,9 +17,7 @@ const renderProfitLossDonutChart = (
     throw new Error(ErrorMessages.MISSING_COMPARISON_CONTAINER);
   }
 
-// ------------------------------------------------------------
 // Placeholder-State (vor Auswertung)
-// ------------------------------------------------------------
 if (!investmentAmount || investmentAmount <= 0) {
   Highcharts.chart(container, {
     chart: {
@@ -41,9 +39,9 @@ if (!investmentAmount || investmentAmount <= 0) {
 
     plotOptions: {
       pie: {
-        innerSize: "30%",           // klares Donut-Loch
-        borderWidth: 2,             // 👈 sichtbarer Ring
-        borderColor: "#8cb6f5",     // 👈 Umrissfarbe
+        innerSize: "50%",           // Donut-Loch
+        borderWidth: 2,             // sichtbarer Ring
+        borderColor: "#8cb6f5",     // Umrissfarbe
         dataLabels: { enabled: false },
         states: {
           hover: { enabled: false },
@@ -59,7 +57,7 @@ if (!investmentAmount || investmentAmount <= 0) {
         data: [
           {
             y: 1,
-            color: "#f3f4f6",        // sehr helles Grau (Füllung)
+            color: "#f3f4f6",        // Füllung
           },
         ],
       },
@@ -69,9 +67,7 @@ if (!investmentAmount || investmentAmount <= 0) {
   return;
 }
 
-  // ------------------------------------------------------------
   // Berechnung
-  // ------------------------------------------------------------
   const calcFinalValue = (series) => {
     const start = series.points[0].value;
     const end   = series.points[series.points.length - 1].value;
@@ -81,9 +77,7 @@ if (!investmentAmount || investmentAmount <= 0) {
   const msciFinal = calcFinalValue(msciSeries);
   const btcFinal  = calcFinalValue(btcSeries);
 
-  // ------------------------------------------------------------
   // Finaler Donut
-  // ------------------------------------------------------------
   Highcharts.chart(container, {
     chart: {
       type: "pie",

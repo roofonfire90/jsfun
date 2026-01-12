@@ -30,9 +30,7 @@ const renderComparisonChart = (container, btcIndex, msciIndex) => {
   }
 
   Highcharts.chart(container, {
-    // ------------------------------------------------------------
     // Chart-Grundkonfiguration
-    // ------------------------------------------------------------
     title: {
       text: "Bitcoin vs. MSCI World (Index 100)",
     },
@@ -41,9 +39,7 @@ const renderComparisonChart = (container, btcIndex, msciIndex) => {
       enabled: false,
     },
 
-    // ------------------------------------------------------------
     // Achsen
-    // ------------------------------------------------------------
     xAxis: {
       type: "datetime",
       title: {
@@ -57,17 +53,13 @@ const renderComparisonChart = (container, btcIndex, msciIndex) => {
       },
     },
 
-    // ------------------------------------------------------------
     // Tooltip
-    // ------------------------------------------------------------
     tooltip: {
       shared: true,
       valueDecimals: 2,
     },
 
-    // ------------------------------------------------------------
     // Datenreihen
-    // ------------------------------------------------------------
     series: [
       {
         name: btcIndex.label,

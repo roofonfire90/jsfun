@@ -2,24 +2,12 @@ import Highcharts from "highcharts";
 import ErrorMessages from "../../constants/exception_messages";
 
 /**
- * Rendert den Bitcoin-Einzelchart.
- *
- * Voraussetzungen:
- * - Die übergebene Zeitreihe enthält Rohdaten
- * - KEINE Normalisierung
- * - KEINE Aggregation
- *
- * Verantwortlichkeiten:
- * - Reines Rendering
- * - Keine Datenmanipulation
+ * Rendert den Bitcoin-Einzelchart (Rohdaten).
  *
  * @param {HTMLElement} container Ziel-DOM-Element
- * @param {Object} series         Bitcoin-Zeitreihe (Rohdaten)
+ * @param {Object} series         Bitcoin-Zeitreihe
  */
 const renderBitcoinChart = (container, series) => {
-  // ----------------------------------------------------------
-  // Defensive Guards
-  // ----------------------------------------------------------
   if (!container) {
     throw new Error(ErrorMessages.MISSING_BTC_CONTAINER);
   }
@@ -29,9 +17,7 @@ const renderBitcoinChart = (container, series) => {
   }
 
   Highcharts.chart(container, {
-    // --------------------------------------------------------
     // Chart-Grundkonfiguration
-    // --------------------------------------------------------
     title: {
       text: "Bitcoin Price (USDC)",
     },
@@ -40,9 +26,7 @@ const renderBitcoinChart = (container, series) => {
       enabled: false,
     },
 
-    // --------------------------------------------------------
     // Achsen
-    // --------------------------------------------------------
     xAxis: {
       type: "datetime",
       title: {
@@ -56,9 +40,7 @@ const renderBitcoinChart = (container, series) => {
       },
     },
 
-    // --------------------------------------------------------
     // Datenreihe
-    // --------------------------------------------------------
     series: [
       {
         name: series.label,

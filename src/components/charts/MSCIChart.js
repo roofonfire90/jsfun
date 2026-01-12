@@ -17,9 +17,7 @@ import ErrorMessages from "../../constants/exception_messages";
  * @param {Object} series         MSCI-Zeitreihe (Rohdaten)
  */
 const renderMSCIChart = (container, series) => {
-  // ----------------------------------------------------------
   // Defensive Guards
-  // ----------------------------------------------------------
   if (!container) {
     throw new Error(ErrorMessages.MISSING_MSCI_CONTAINER);
   }
@@ -29,9 +27,7 @@ const renderMSCIChart = (container, series) => {
   }
 
   Highcharts.chart(container, {
-    // --------------------------------------------------------
     // Chart-Grundkonfiguration
-    // --------------------------------------------------------
     title: {
       text: "MSCI World Index",
     },
@@ -40,9 +36,7 @@ const renderMSCIChart = (container, series) => {
       enabled: false,
     },
 
-    // --------------------------------------------------------
     // Achsen
-    // --------------------------------------------------------
     xAxis: {
       type: "datetime",
       title: {
@@ -56,9 +50,7 @@ const renderMSCIChart = (container, series) => {
       },
     },
 
-    // --------------------------------------------------------
     // Datenreihe
-    // --------------------------------------------------------
     series: [
       {
         name: series.label,
