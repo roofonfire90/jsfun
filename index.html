@@ -15,7 +15,48 @@
          HERO (Platzhalter – später Carousel / Text / CTA)
          ====================================================== -->
     <section class="hero">
-      <div class="section-inner hero-inner"></div>
+      <div class="section-inner hero-inner">
+
+        <div class="hero-carousel">
+
+          <!-- Viewport -->
+          <div class="hero-viewport">
+            <div class="hero-track">
+
+              <!-- Slide 1 -->
+              <div class="hero-slide">
+                <button class="hero-icon" data-slide="analysis">
+                  <img src="/icons/analysis.svg" alt="Analyse" />
+                </button>
+              </div>
+
+              <!-- Slide 2 -->
+              <div class="hero-slide">
+                <button class="hero-icon" data-slide="comparison">
+                  <img src="/icons/compare.svg" alt="Vergleich" />
+                </button>
+              </div>
+
+              <!-- Slide 3 -->
+              <div class="hero-slide">
+                <button class="hero-icon" data-slide="insights">
+                  <img src="/icons/insights.svg" alt="Insights" />
+                </button>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Navigation Dots -->
+          <div class="hero-dots">
+            <button class="dot active" data-index="0"></button>
+            <button class="dot" data-index="1"></button>
+            <button class="dot" data-index="2"></button>
+          </div>
+
+        </div>
+
+      </div>
     </section>
 
     <!-- ======================================================
@@ -70,6 +111,36 @@
     </section>
 
   </main>
+
+  <!-- ======================================================
+     HERO MODAL
+     ====================================================== -->
+  <div id="hero-modal" class="modal hidden" aria-hidden="true">
+
+    <!-- Backdrop -->
+    <div class="modal-backdrop"></div>
+
+    <!-- Dialog -->
+    <div class="modal-dialog">
+
+      <!-- Header -->
+      <div class="modal-header">
+        <h2 class="modal-title">Titel</h2>
+        <button class="modal-close" aria-label="Schließen">
+          ✕
+        </button>
+      </div>
+
+      <!-- Content -->
+      <div class="modal-content">
+        <!-- Dynamischer Inhalt je Slide -->
+        <p>
+          Placeholder für Modal-Inhalt.
+        </p>
+      </div>
+
+    </div>
+  </div>
 
   <!-- ======================================================
        App Entry
