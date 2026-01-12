@@ -1,39 +1,79 @@
 <!doctype html>
 <html lang="de">
-
-<!---------------------------------------------------------------------------------------->
-<!----------------------------------------- HEAD ----------------------------------------->
-<!---------------------------------------------------------------------------------------->
 <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>alfa_js_data_visualization_page</title>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/src/styles/main.css" />
+  <title>Project 1</title>
+</head>
 
-  </head>
+<body>
+  <main class="page">
 
-  <!---------------------------------------------------------------------------------------->
-  <!---------------------------------------- BODY ------------------------------------------>
-  <!---------------------------------------------------------------------------------------->
-  <body>
-    <div id="app">
+    <!-- ======================================================
+         HERO (Platzhalter – später Carousel / Text / CTA)
+         ====================================================== -->
+    <section class="hero">
+      <div class="section-inner hero-inner"></div>
+    </section>
 
-      <!-- Carousel -->
-      <header id="carousel-root"></header>
+    <!-- ======================================================
+         ZEILE 1 – Charts (MSCI | BTC | Vergleich Linie)
+         ====================================================== -->
+    <section class="section">
+      <div class="section-inner charts-row charts-row-3">
+        <div id="msci-chart" class="chart-box"></div>
+        <div id="bitcoin-chart" class="chart-box"></div>
+        <div id="comparison-line-chart" class="chart-box"></div>
+      </div>
+    </section>
 
-      <!-- Charts -->
-      <main id="charts-root">
-        <div id="bitcoin-chart"></div>
-        <div id="msci-chart"></div>
-        <div id="comparison-chart"></div>
-      </main>
+    <!-- ======================================================
+         ZEILE 2 – Investment Calculator | Donut (Profit/Loss)
+         ====================================================== -->
+    <section class="section">
+      <div class="section-inner charts-row">
 
-    </div>
-    <!---------------------------------------------------------------------------------------->
-    <!------------------------------------ Main JS Module ------------------------------------>
-    <!---------------------------------------------------------------------------------------->
-    <script type="module" src="/src/main.js"></script>
+        <!-- Calculator -->
+        <div class="investment-box">
+          <div class="investment-header">Investitionsvergleich (Jahresende)</div>
+
+          <div class="investment-input">
+            <label for="investment-amount">Investitionsbetrag (€)</label>
+            <input
+              id="investment-amount"
+              type="number"
+              min="0"
+              step="100"
+              placeholder="z. B. 10.000"
+            />
+          </div>
+
+          <button id="investment-calc-btn">
+            Auswerten
+          </button>
+
+          <div
+            id="investment-result"
+            class="investment-result hidden">
+          </div>
+        </div>
+
+        <!-- Donut Chart (Ghost → Update nach Auswertung) -->
+        <div
+          id="comparison-donut-chart"
+          class="chart-box">
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ======================================================
+       App Entry
+       ====================================================== -->
+  <script type="module" src="/src/main.js"></script>
 </body>
-
-
 </html>
