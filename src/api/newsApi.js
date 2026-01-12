@@ -4,7 +4,7 @@
  * - Keine Filterung
  * - Keine Interpretation
  */
-const NEWS_EP = "https://free-crypto-news.vercel.app/api/news";
+const NEWS_EP = "https://free-crypto-news.vercel.app/api/news?limit=50";
 
 export async function fetchCryptoNews() {
   const res = await fetch(NEWS_EP);

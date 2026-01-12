@@ -15,6 +15,37 @@ export async function initNewsPanel(panelRoot) {
 
   const state = createNewsState();
 
+  const sortButtons = panelRoot.querySelectorAll(".sort-btn");
+
+  sortButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const type = btn.dataset.sort;
+
+      if (state.sort.by === type) {
+        // Richtung toggeln
+        state.sort.dir = state.sort.dir === "asc" ? "desc" : "asc";
+      } else {
+        state.sort.by = type;
+        state.sort.dir = type === "date" ? "desc" : "asc";
+      }
+
+      // UI-State
+      sortButtons.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      // Label anpassen
+      if (type === "date") {
+        btn.textContent = state.sort.dir === "asc" ? "Datum ↑" : "Datum ↓";
+      }
+
+      if (type === "alpha") {
+        btn.textContent = state.sort.dir === "asc" ? "A–Z" : "Z–A";
+      }
+
+      render();
+    });
+  });
+
   // ---------------------------
   // Load Data
   // ---------------------------
@@ -65,13 +96,43 @@ export async function initNewsPanel(panelRoot) {
   });
 
   // ---------------------------
+  // Sortieren
+  // ---------------------------
+  function sortItems(items, sort) {
+    const sorted = [...items];
+
+    if (sort.by === "date") {
+      sorted.sort((a, b) => {
+        const da = new Date(a.pubDate).getTime();
+        const db = new Date(b.pubDate).getTime();
+        return sort.dir === "asc" ? da - db : db - da;
+      });
+    }
+
+    if (sort.by === "alpha") {
+      sorted.sort((a, b) => {
+        const ta = a.title.toLowerCase();
+        const tb = b.title.toLowerCase();
+        return sort.dir === "asc"
+          ? ta.localeCompare(tb)
+          : tb.localeCompare(ta);
+      });
+    }
+
+    return sorted;
+  }
+
+  // ---------------------------
   // Render
   // ---------------------------
   function render() {
-    const visible = state.filtered.slice(0, state.visibleCount);
+    const sorted = sortItems(state.filtered, state.sort);
+    const visible = sorted.slice(0, state.visibleCount);
+
     renderNewsList(listEl, visible);
 
     loader.style.display =
-      state.visibleCount < state.filtered.length ? "block" : "none";
+      state.visibleCount < sorted.length ? "block" : "none";
   }
+
 }
