@@ -3,6 +3,15 @@ trigger:
   branches:
     include: [ main ]
 
+variables:
+  IMAGE_OWNER: 'roofonfire90'
+  IMAGE_NAME: 'fun-website'
+  TAG_MAIN: 'main'
+  TAG_SHA: 'sha-$(Build.SourceVersion)'
+  SRC_DIR: '$(Pipeline.Workspace)/self'
+  DOCKER_BUILDKIT: '1'
+  COMPOSE_DOCKER_CLI_BUILD: '1'
+
 stages:
 
 # =========================================
@@ -23,30 +32,10 @@ stages:
       displayName: Verify Hetzner agent
 
 # =========================================
-# 1) Preflight
-# =========================================
-- stage: Preflight
-  dependsOn: Smoke
-  jobs:
-  - job: preflight
-    pool:
-      name: hetzner-linux
-    steps:
-    - bash: |
-        set -eux
-        docker system df
-      displayName: Docker state
-
-    - bash: |
-        set -eux
-        docker builder prune -af
-      displayName: Docker builder cleanup
-
-# =========================================
-# 2) Build & Push
+# 1) Build & Push
 # =========================================
 - stage: BuildAndPush
-  dependsOn: Preflight
+  dependsOn: Smoke
   jobs:
   - job: build
     pool:
@@ -79,7 +68,7 @@ stages:
       displayName: Build & Push Image
 
 # =========================================
-# 3) Deploy
+# 2) Deploy
 # =========================================
 - stage: Deploy
   dependsOn: BuildAndPush
@@ -94,5 +83,5 @@ stages:
           steps:
           - bash: |
               set -eux
-              /opt/fun-website/deploy.sh
+              /root/opt/fun/deploy/deploy.sh
             displayName: Deploy fun.dimla.info
