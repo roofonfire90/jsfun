@@ -1,14 +1,21 @@
+export default `
 <section class="panel news-panel">
 
-
-  <!-- Search Bar -->
+  <!-- Search + Sort -->
   <div class="news-search">
 
     <div class="news-sort">
-      <button class="sort-btn" data-sort="date" data-dir="desc" title="Nach Datum sortieren">
+      <button
+        class="sort-btn"
+        data-sort="date"
+        title="Nach Datum sortieren">
         Datum ↓
       </button>
-      <button class="sort-btn" data-sort="alpha" data-dir="asc" title="Alphabetisch sortieren">
+
+      <button
+        class="sort-btn"
+        data-sort="alpha"
+        title="Alphabetisch sortieren">
         A–Z
       </button>
     </div>
@@ -30,10 +37,12 @@
   </div>
 
   <!-- News List -->
-  <ul class="news-list">
-  </ul>
+  <ul class="news-list"></ul>
 
   <!-- Lazy Loading Indicator -->
-  <div class="news-loader"> Weitere Einträge werden geladen …</div>
+  <div class="news-loader">
+    Weitere Einträge werden geladen …
+  </div>
 
 </section>
+`;

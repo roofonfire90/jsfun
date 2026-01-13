@@ -1,49 +1,55 @@
+import financeTemplate from "./finance.template.js";
+import newsTemplate from "./news.template.js";
+import aboutTemplate from "./about.template.js";
+
 import { initFinancePanel } from "./financePanel.js";
 import { initNewsPanel } from "./newsPanel.js";
 
+const templates = {
+  finance: financeTemplate,
+  news: newsTemplate,
+  about: aboutTemplate,
+};
+
 const panelCache = new Map();
 
-export async function loadPanel(name) {
+export function loadPanel(name) {
   const container = document.querySelector("#panel-content");
   if (!container) {
-    throw new Error("panel-content Container nicht gefunden");
+    throw new Error("panel-content fehlt");
   }
 
-  // Panel existiert bereits → nur aktivieren
+  // bereits geladen → nur aktivieren
   if (panelCache.has(name)) {
     activatePanel(name);
     return;
   }
 
-  // Panel laden
-  const res = await fetch(`/src/components/panels/${name}.html`);
-  if (!res.ok) {
-    throw new Error(`Panel ${name} konnte nicht geladen werden`);
+  const html = templates[name];
+  if (!html) {
+    throw new Error(`Panel '${name}' unbekannt`);
   }
-
-  const html = await res.text();
 
   const wrapper = document.createElement("div");
   wrapper.innerHTML = html.trim();
 
-  const panel = wrapper.querySelector(".panel");
-  if (!panel) {
-    throw new Error(`Panel ${name} enthält kein Root-Element`);
+  const panel = wrapper.firstElementChild;
+  if (!panel || !panel.classList.contains("panel")) {
+    throw new Error(`Panel '${name}' ohne gültiges Root-Element`);
   }
 
   panel.dataset.panel = name;
-  panel.classList.add("active");
 
   container.appendChild(panel);
   panelCache.set(name, panel);
 
-  // Panel-spezifische Initialisierung (NUR HIER!)
+  // panel-spezifische Initialisierung
   if (name === "finance") {
-    requestAnimationFrame(() => initFinancePanel(panel));
+    initFinancePanel(panel);
   }
 
   if (name === "news") {
-    requestAnimationFrame(() => initNewsPanel(panel));
+    initNewsPanel(panel);
   }
 
   activatePanel(name);
