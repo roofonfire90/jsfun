@@ -91,3 +91,52 @@
             var(--color-bg-page) 85%,
             var(--color-bg-panel));
 }
+
+/* ======================================================
+   About
+   ====================================================== */
+
+.about-panel {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  padding: 60px 20px;
+}
+
+.about-card {
+  max-width: 520px;
+  text-align: center;
+}
+
+.avatar-circle {
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-circle span {
+  color: white;
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.about-title {
+  font-size: 22px;
+  margin-bottom: 12px;
+}
+
+.about-text {
+  font-size: 15px;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.about-text.muted {
+  color: #6b7280;
+}
