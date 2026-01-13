@@ -1,0 +1,87 @@
+pr: none
+trigger:
+  branches:
+    include: [ main ]
+
+variables:
+  IMAGE_OWNER: 'roofonfire90'
+  IMAGE_NAME: 'fun-website'
+  TAG_MAIN: 'main'
+  TAG_SHA: 'sha-$(Build.SourceVersion)'
+  SRC_DIR: '$(Pipeline.Workspace)/self'
+  DOCKER_BUILDKIT: '1'
+  COMPOSE_DOCKER_CLI_BUILD: '1'
+
+stages:
+
+# =========================================
+# 0) Smoke
+# =========================================
+- stage: Smoke
+  displayName: Smoke (Hetzner agent)
+  jobs:
+  - job: smoke
+    pool:
+      name: hetzner-linux
+    steps:
+    - bash: |
+        set -eux
+        whoami
+        hostname
+        docker version
+      displayName: Verify Hetzner agent
+
+# =========================================
+# 1) Build & Push
+# =========================================
+- stage: BuildAndPush
+  dependsOn: Smoke
+  jobs:
+  - job: build
+    pool:
+      name: hetzner-linux
+    steps:
+    - checkout: self
+      fetchDepth: 0
+      path: self
+
+    - bash: |
+        set -eux
+        echo "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_USER" --password-stdin
+      env:
+        GHCR_USER: $(IMAGE_OWNER)
+        GHCR_TOKEN: $(GHCR_PAT)
+      displayName: Login GHCR
+
+    - bash: |
+        set -eux
+        IMAGE="ghcr.io/$(IMAGE_OWNER)/$(IMAGE_NAME)"
+
+        docker build \
+          --label com.funwebsite.ci=true \
+          -t "$IMAGE:$(TAG_MAIN)" \
+          -t "$IMAGE:$(TAG_SHA)" \
+          "$(SRC_DIR)"
+
+        docker push "$IMAGE:$(TAG_MAIN)"
+        docker push "$IMAGE:$(TAG_SHA)"
+      displayName: Build & Push Image
+
+# =========================================
+# 2) Deploy
+# =========================================
+- stage: Deploy
+  dependsOn: BuildAndPush
+  jobs:
+  - deployment: deploy
+    environment: fun-prod
+    pool:
+      name: hetzner-linux
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - bash: |
+              set -eux
+              /root/opt/fun/deploy/deploy.sh
+            displayName: Deploy fun.dimla.info
