@@ -22,7 +22,11 @@ const renderInvestmentComparisonChart = (
   // ----------------------------------------------------------
   if (!investmentAmount || investmentAmount <= 0) {
     Highcharts.chart(container, {
-      chart: { type: "column", backgroundColor: "transparent" },
+      chart: { 
+        type: "column", 
+        backgroundColor: "transparent",
+        borderWidth: 0,
+      },
       title: { text: "Investitionsvergleich" },
       subtitle: {
         text: "Bitte Betrag eingeben und auswerten",
@@ -61,6 +65,7 @@ const renderInvestmentComparisonChart = (
     chart: {
       type: "column",
       backgroundColor: "transparent",
+      borderWidth: 0,
     },
 
     title: {

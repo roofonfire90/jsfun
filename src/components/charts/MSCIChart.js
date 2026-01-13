@@ -28,6 +28,11 @@ const renderMSCIChart = (container, series) => {
 
   Highcharts.chart(container, {
     // Chart-Grundkonfiguration
+    chart: {
+      backgroundColor: "transparent",
+      borderWidth: 0,
+    },
+    
     title: {
       text: "MSCI World Index",
     },

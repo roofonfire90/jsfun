@@ -21,6 +21,13 @@ export function loadPanel(name) {
 
   // bereits geladen → nur aktivieren
   if (panelCache.has(name)) {
+    const cachedPanel = panelCache.get(name);
+    
+    // Fix: If panel is not in DOM anymore, re-append it
+    if (!container.contains(cachedPanel)) {
+      container.appendChild(cachedPanel);
+    }
+    
     activatePanel(name);
     return;
   }

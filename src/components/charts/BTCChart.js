@@ -18,6 +18,11 @@ const renderBitcoinChart = (container, series) => {
 
   Highcharts.chart(container, {
     // Chart-Grundkonfiguration
+    chart: {
+      backgroundColor: "transparent",
+      borderWidth: 0,
+    },
+    
     title: {
       text: "Bitcoin Price (USDC)",
     },

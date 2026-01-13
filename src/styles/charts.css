@@ -38,7 +38,7 @@
 }
 
 .highcharts-axis-line {
-  stroke: var(--color-border);
+  stroke: none;
 }
 
 /* ------------------------------------------------------
@@ -51,7 +51,7 @@
 
 .highcharts-tooltip-box {
   fill: var(--color-bg-panel);
-  stroke: var(--color-border);
+  stroke: none;
   rx: var(--radius-sm);
 }
 

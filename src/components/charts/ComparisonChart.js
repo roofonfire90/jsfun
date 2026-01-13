@@ -31,6 +31,11 @@ const renderComparisonChart = (container, btcIndex, msciIndex) => {
 
   Highcharts.chart(container, {
     // Chart-Grundkonfiguration
+    chart: {
+      backgroundColor: "transparent",
+      borderWidth: 0,
+    },
+    
     title: {
       text: "Bitcoin vs. MSCI World (Index 100)",
     },

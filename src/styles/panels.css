@@ -96,9 +96,12 @@
    About
    ====================================================== */
 
-.about-panel {
+.about-panel.active {
   display: grid;
   place-items: center;
+}
+
+.about-panel {
   width: 100%;
   padding: 60px 20px;
 }
