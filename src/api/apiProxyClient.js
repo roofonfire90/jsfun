@@ -1,5 +1,3 @@
-// src/services/api/apiProxyClient.js
-
 const PROXY_ENDPOINT = "/api/proxy";
 
 export async function apiProxyRequest({

@@ -25,9 +25,13 @@ export function renderNewsList(listEl, items) {
 
     li.innerHTML = `
       <button class="news-title">
-
         <span class="news-thumb">
-          <span class="news-thumb-placeholder"></span>
+          <img
+            src="/assets/images/news/news_icon.png"
+            alt=""
+            class="news-thumb-placeholder"
+            loading="lazy"
+          />
         </span>
 
         <span class="news-title-main">
