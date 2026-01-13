@@ -12,7 +12,7 @@
 .panel {
     background: var(--color-bg-panel);
     border-radius: var(--radius-md);
-    padding: 32px;
+    padding: 4px;
     display: none;
     border: 1px solid rgba(0, 0, 0, 0.12);
     border-top-left-radius: 0;
