@@ -1,32 +1,21 @@
+import { apiProxyRequest } from "../apiProxyClient.js";
+
 /**
- * Zentrale Fetch-Hilfsfunktion für JSON-APIs.
+ * Zentrale Fetch-Hilfsfunktion für JSON-APIs (Proxy-basiert).
  *
- * - Erwartet JSON-Antworten
- * - Liest den Response-Body genau einmal
- * - Liefert aussagekräftige Fehler bei HTTP- oder Content-Type-Problemen
- *
- * @param {string} url Ziel-URL (relativ, über Proxy)
- * @returns {Promise<any>} Geparstes JSON
+ * - IMMER über /api/proxy
+ * - Erwartet JSON
+ * - Liest Body genau einmal
  */
 export const fetchJson = async (url) => {
-  const res = await fetch(url);
+  const response = await apiProxyRequest({
+    method: "GET",
+    url,
+  });
 
-  const contentType = res.headers.get("content-type") || "";
-  const bodyText = await res.text();
-
-  if (!res.ok) {
-    throw new Error(
-      `HTTP ${res.status} for ${url}\n` +
-      bodyText.slice(0, 300)
-    );
+  if (response == null) {
+    throw new Error(`Empty response for ${url}`);
   }
 
-  if (!contentType.includes("application/json")) {
-    throw new Error(
-      `Expected JSON but got "${contentType}" for ${url}\n` +
-      bodyText.slice(0, 300)
-    );
-  }
-
-  return JSON.parse(bodyText);
+  return response;
 };

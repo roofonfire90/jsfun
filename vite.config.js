@@ -2,46 +2,30 @@ import { defineConfig } from "vite";
 
 /**
  * ============================================================
- * Vite Dev-Server – Proxy-Konfiguration
+ * Vite Dev-Server – Proxy zum Produktions-API-Proxy
  * ============================================================
  *
- * Zweck:
- * - Umgehung von CORS-Beschränkungen im Entwicklungsmodus
- * - Simulation von Server-to-Server-Requests
+ * DEV:
+ *   Browser → localhost:5173/api/proxy
+ *          → Vite Proxy
+ *          → https://fun.dimla.info/api/proxy
  *
- * Wichtige Hinweise:
- * - Diese Proxies sind AUSSCHLIESSLICH für Development gedacht
- * - In Produktion müssen externe APIs über ein eigenes Backend
- *   oder einen dedizierten Proxy angebunden werden
+ * PROD:
+ *   Browser → https://fun.dimla.info/api/proxy
+ *          → Traefik → website-api-proxy
  *
- * Hintergründe:
- * - Yahoo Finance blockiert direkte Browser-Requests (CORS)
- * - Binance ist für serverseitige Nutzung konzipiert und
- *   erlaubt keine sicheren Frontend-Calls
+ * Ergebnis:
+ * - identischer Client-Code
+ * - identische Request-URLs
+ * - keine CORS-Probleme
  */
 export default defineConfig({
   server: {
     proxy: {
-      // --------------------------------------------------------
-      // Yahoo Finance (MSCI World Daten)
-      // --------------------------------------------------------
-      "/yahoo": {
-        target: "https://query2.finance.yahoo.com",
+      "/api": {
+        target: "https://fun.dimla.info",
         changeOrigin: true,
         secure: true,
-        // Entfernt das lokale Prefix vor Weiterleitung
-        rewrite: (path) => path.replace(/^\/yahoo/, ""),
-      },
-
-      // --------------------------------------------------------
-      // Binance API (Bitcoin Preisdaten)
-      // --------------------------------------------------------
-      "/api/binance": {
-        target: "https://api.binance.com",
-        changeOrigin: true,
-        secure: true,
-        // Entfernt das lokale Prefix vor Weiterleitung
-        rewrite: (path) => path.replace(/^\/api\/binance/, ""),
       },
     },
   },

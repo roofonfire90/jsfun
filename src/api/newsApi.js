@@ -1,20 +1,16 @@
+import { fetchJson } from "./base/apiClient.js";
+import { CRYPTO_NEWS_EP } from "../constants/api_endpoints.js";
+
 /**
  * Crypto News API
- * - Nur Fetch
+ * - Proxy-basiert
  * - Keine Filterung
  * - Keine Interpretation
  */
-const NEWS_EP = "https://free-crypto-news.vercel.app/api/news?limit=50";
-
 export async function fetchCryptoNews() {
-  const res = await fetch(NEWS_EP);
-  if (!res.ok) {
-    throw new Error("News API nicht erreichbar");
-  }
+  const data = await fetchJson(CRYPTO_NEWS_EP);
 
-  const data = await res.json();
-
-  if (!Array.isArray(data.articles)) {
+  if (!Array.isArray(data?.articles)) {
     throw new Error("News API: articles fehlt oder falsches Format");
   }
 
