@@ -12,10 +12,13 @@ import { openHeroModal } from "./HeroModal.js";
  */
 export const initHeroCarousel = () => {
   const carousel = document.querySelector(".hero-carousel");
+  if (!carousel) 
+    return;
   const track = document.querySelector(".hero-track");
   const slides = document.querySelectorAll(".hero-slide");
 
-  if (!carousel || !track || slides.length === 0) return;
+  if (!carousel || !track || slides.length === 0) 
+    return;
 
   let currentIndex = 0;
   let intervalId = null;

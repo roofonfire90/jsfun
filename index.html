@@ -15,48 +15,40 @@
     <!-- ======================================================
          HERO (Platzhalter – später Carousel / Text / CTA)
          ====================================================== -->
+    <!-- ======================================================
+     HERO / CAROUSEL (STRUCTURE ONLY)
+     ====================================================== -->
     <section class="hero">
       <div class="section-inner hero-inner">
-
         <div class="hero-carousel">
-
           <!-- Viewport -->
           <div class="hero-viewport">
             <div class="hero-track">
-
               <!-- Slide 1 -->
-              <div class="hero-slide">
-                <button class="hero-icon" data-slide="analysis">
-                  <img src="/icons/analysis.svg" alt="Analyse" />
-                </button>
+              <div class="hero-slide" data-slide="analysis">
+                <img src="/assets/hero/bull_vs_bear.png" alt="Analyse" />
+                <button class="hero-icon">ANALYSIS</button>
               </div>
-
               <!-- Slide 2 -->
-              <div class="hero-slide">
-                <button class="hero-icon" data-slide="comparison">
-                  <img src="/icons/compare.svg" alt="Vergleich" />
-                </button>
+              <div class="hero-slide" data-slide="news">
+                <img src="/assets/hero/crypto_news.png" alt="News" />
+                <button class="hero-icon">NEWS</button>
               </div>
-
               <!-- Slide 3 -->
-              <div class="hero-slide">
-                <button class="hero-icon" data-slide="insights">
-                  <img src="/icons/insights.svg" alt="Insights" />
-                </button>
+              <div class="hero-slide" data-slide="about">
+                <img src="/assets/hero/about.png" alt="About" />
+                <button class="hero-icon">ABOUT</button>
               </div>
-
             </div>
           </div>
-
           <!-- Navigation Dots -->
           <div class="hero-dots">
-            <button class="dot active" data-index="0"></button>
-            <button class="dot" data-index="1"></button>
-            <button class="dot" data-index="2"></button>
+            <button class="dot" aria-label="Slide 1"></button>
+            <button class="dot" aria-label="Slide 2"></button>
+            <button class="dot" aria-label="Slide 3"></button>
           </div>
 
         </div>
-
       </div>
     </section>
 

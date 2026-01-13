@@ -1,50 +1,60 @@
-const modal = document.querySelector("#hero-modal");
-const backdrop = modal.querySelector(".modal-backdrop");
-const closeBtn = modal.querySelector(".modal-close");
-const titleEl = modal.querySelector(".modal-title");
-const contentEl = modal.querySelector(".modal-content");
+let modal = null;
+let backdrop = null;
+let closeBtn = null;
+let titleEl = null;
+let contentEl = null;
 
-/**
- * Statische Inhalte pro Slide.
- * Später problemlos austauschbar (HTML, Fetch, Components).
- */
 const modalContentMap = {
   analysis: {
     title: "Analyse",
     content: `
       <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         Analysefunktionen zur strukturierten Auswertung von Marktdaten.
       </p>
     `,
   },
-  comparison: {
-    title: "Vergleich",
+  news: {
+    title: "News",
     content: `
       <p>
-        Lorem ipsum dolor sit amet.
-        Vergleich von Bitcoin und MSCI World über Zeit.
+        Aktuelle Krypto-News und Marktbewegungen.
       </p>
     `,
   },
-  insights: {
-    title: "Insights",
+  about: {
+    title: "About",
     content: `
       <p>
-        Lorem ipsum dolor sit amet.
-        Zusammenfassende Erkenntnisse und Interpretation.
+        Informationen über dieses Projekt.
       </p>
     `,
   },
 };
 
 /**
- * Öffnet das Modal für den angegebenen Content.
- *
- * @param {string} contentId
- * @param {Function} onClose Callback nach dem Schließen
+ * Initialisiert das Modal lazy.
+ * Gibt false zurück, wenn es nicht existiert.
+ */
+const ensureModal = () => {
+  if (modal) return true;
+
+  modal = document.querySelector("#hero-modal");
+  if (!modal) return false;
+
+  backdrop  = modal.querySelector(".modal-backdrop");
+  closeBtn  = modal.querySelector(".modal-close");
+  titleEl   = modal.querySelector(".modal-title");
+  contentEl = modal.querySelector(".modal-content");
+
+  return !!(backdrop && closeBtn && titleEl && contentEl);
+};
+
+/**
+ * Öffnet das Hero-Modal, falls vorhanden.
  */
 export const openHeroModal = (contentId, onClose) => {
+  if (!ensureModal()) return;
+
   const entry = modalContentMap[contentId];
   if (!entry) return;
 
@@ -57,8 +67,10 @@ export const openHeroModal = (contentId, onClose) => {
   const close = () => {
     modal.classList.add("hidden");
     modal.setAttribute("aria-hidden", "true");
+
     backdrop.removeEventListener("click", close);
     closeBtn.removeEventListener("click", close);
+
     if (onClose) onClose();
   };
 

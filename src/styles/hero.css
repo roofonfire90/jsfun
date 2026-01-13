@@ -36,10 +36,15 @@
 ----------------------------------- */
 
 .hero-slide {
+  position: relative;
   flex: 0 0 100%;
+  height: 100%;
+
   display: flex;
   justify-content: center;
   align-items: center;
+
+  overflow: hidden;
   opacity: 0.6;
   transition: opacity var(--duration-normal) ease;
 }
@@ -48,10 +53,36 @@
   opacity: 1;
 }
 
+/* Hintergrundbild im Slide */
+.hero-slide > img {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  z-index: 1;
+}
+
+/* Icon-Button als Overlay */
 .hero-icon {
+  position: relative;
+  z-index: 2;
+
+  margin-top: 10%;
   background: none;
   border: none;
   cursor: pointer;
+
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+
+  color: #ffffff;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+
+  padding: 0;
 }
 
 .hero-icon img {
@@ -63,6 +94,7 @@
 .hero-icon:hover img {
   transform: scale(1.05);
 }
+
 
 /* ----------------------------------
    Navigation Dots
