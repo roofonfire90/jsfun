@@ -32,23 +32,18 @@ export async function loadPanel(name) {
   }
 
   panel.dataset.panel = name;
-  panel.classList.add("panel", "active");
+  panel.classList.add("active");
 
   container.appendChild(panel);
   panelCache.set(name, panel);
 
-  // Panel-spezifische Initialisierung
-
+  // Panel-spezifische Initialisierung (NUR HIER!)
   if (name === "finance") {
-    requestAnimationFrame(() => {
-      initFinancePanel(panel);
-    });
+    requestAnimationFrame(() => initFinancePanel(panel));
   }
 
   if (name === "news") {
-    requestAnimationFrame(() => {
-      initNewsPanel(panel);
-    });
+    requestAnimationFrame(() => initNewsPanel(panel));
   }
 
   activatePanel(name);
