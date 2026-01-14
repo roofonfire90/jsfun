@@ -8,15 +8,15 @@ const translations = {
     // Hero Slides
     "hero-analysis": "ANALYSE",
     "hero-news": "NEWS",
-    "hero-about": "ÜBER UNS",
+    "hero-about": "ÜBER",
     "hero-alt-analysis": "Analyse",
     "hero-alt-news": "News",
-    "hero-alt-about": "Über uns",
+    "hero-alt-about": "Über",
     
     // Tabs
     "tab-finance": "Finanzen",
     "tab-news": "Neuigkeiten",
-    "tab-about": "Über uns",
+    "tab-about": "Über",
     
     // Finance Panel - Investment
     "investment-title": "Investitionsvergleich (Jahresende)",
