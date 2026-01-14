@@ -17,7 +17,7 @@ import { initAuth, login, getUser, isAuthenticated } from "./app/auth/auth.js";
 
   // 4. Ab hier: User ist eingeloggt
   const user = await getUser();
-  console.log("User:", user);
+  document.querySelector(".page").classList.remove("hidden");
 
   // 5. Jetzt erst App initialisieren
   initTabs();
