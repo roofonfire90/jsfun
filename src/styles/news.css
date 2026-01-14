@@ -7,6 +7,9 @@
   align-items: center;
   gap: 12px;
   flex-wrap: wrap;
+  background: var(--color-bg-panel);
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--color-border);
 }
 
 /* Wrapper für Input + X */
@@ -58,13 +61,60 @@
 }
 
 /* ======================================================
+   News Content Wrapper (Scrollable)
+   ====================================================== */
+
+.news-content-wrapper {
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 520px;
+}
+
+/* Scrollbar Styling */
+.news-content-wrapper::-webkit-scrollbar {
+  width: 8px;
+}
+
+.news-content-wrapper::-webkit-scrollbar-track {
+  background: var(--color-bg-panel);
+}
+
+.news-content-wrapper::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 4px;
+}
+
+.news-content-wrapper::-webkit-scrollbar-thumb:hover {
+  background: var(--color-border-soft);
+}
+
+/* Dark Mode Scrollbar */
+body.dark-mode .news-content-wrapper::-webkit-scrollbar-thumb {
+  background: #4b5563;
+}
+
+body.dark-mode .news-content-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
+}
+
+/* Firefox Scrollbar */
+.news-content-wrapper {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) var(--color-bg-panel);
+}
+
+body.dark-mode .news-content-wrapper {
+  scrollbar-color: #4b5563 var(--color-bg-panel);
+}
+
+/* ======================================================
    News List
    ====================================================== */
 
 .news-list {
   list-style: none;
-  padding: 0;
-  margin: 0 24 0 0;
+  padding: 0 16px;
+  margin: 0;
 }
 
 .news-item {
@@ -89,10 +139,10 @@
 
 .news-content {
   display: none;
-  padding-bottom: 14px;
+  padding: 0 0 10px 54px;
   color: var(--color-text-subtle);
-  font-size: 0.9rem;
-  line-height: 1.5;
+  font-size: 0.85rem;
+  line-height: 1.4;
 }
 
 .news-item.open .news-content {
@@ -106,23 +156,23 @@
 .news-title {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 
   width: 100%;
-  padding: 14px 0;
+  padding: 10px 0;
   background: none;
   border: none;
   text-align: left;
-  font-weight: 600;
-  font-size: 0.95rem;
+  font-weight: 500;
+  font-size: 0.9rem;
   cursor: pointer;
   color: var(--color-text-main);
 }
 
 /* Thumbnail */
 .news-thumb {
-  flex: 0 0 56px;
-  height: 56px;
+  flex: 0 0 44px;
+  height: 44px;
   border-radius: var(--radius-sm);
   overflow: hidden;
   background: var(--color-bg-soft);
@@ -148,21 +198,38 @@
 
 /* Titeltext */
 .news-title-text {
-  line-height: 1.4;
+  line-height: 1.3;
+  flex: 1;
 }
 
 /* Titel + Datum Wrapper */
 .news-title-main {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
 }
 
 /* Datum */
 .news-date {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   color: var(--color-text-muted);
   line-height: 1;
+  flex-shrink: 0;
+  text-align: right;
+}
+
+/* Mobile: Datum unter Titel */
+@media (max-width: 640px) {
+  .news-title-main {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  
+  .news-date {
+    text-align: left;
+  }
 }
 
 /* ======================================================
@@ -201,7 +268,8 @@
    ====================================================== */
 
 .news-loader {
-  margin-top: 16px;
+  margin: 16px 0;
+  padding: 0 16px;
   font-size: 0.85rem;
   color: var(--color-text-muted);
   text-align: center;

@@ -21,6 +21,7 @@ export async function initNewsPanel(panelRoot) {
   const loader   = panelRoot.querySelector(".news-loader");
   const loadingIndicator = panelRoot.querySelector(".news-loading");
   const sortBtns = panelRoot.querySelectorAll(".sort-btn");
+  const scrollContainer = panelRoot.querySelector(".news-content-wrapper");
 
   /* --------------------------------------------------
      1. Daten laden (Cache → Fetch)
@@ -108,16 +109,25 @@ export async function initNewsPanel(panelRoot) {
   });
 
   /* --------------------------------------------------
-     5. Lazy Loading (UI-only)
+     5. Lazy Loading (Throttled)
      -------------------------------------------------- */
-  panelRoot.addEventListener("scroll", () => {
-    if (
-      panelRoot.scrollTop + panelRoot.clientHeight >=
-      panelRoot.scrollHeight - 40
-    ) {
-      newsStore.loadMore();
-      render();
-    }
+  let scrollTimeout = null;
+  scrollContainer.addEventListener("scroll", () => {
+    if (scrollTimeout) return;
+    
+    scrollTimeout = setTimeout(() => {
+      scrollTimeout = null;
+      
+      if (
+        scrollContainer.scrollTop + scrollContainer.clientHeight >=
+        scrollContainer.scrollHeight - 100
+      ) {
+        if (newsStore.hasMore()) {
+          newsStore.loadMore();
+          render();
+        }
+      }
+    }, 100);
   });
 
   /* --------------------------------------------------

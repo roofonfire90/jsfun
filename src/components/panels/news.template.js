@@ -45,12 +45,15 @@ export default `
 
   </div>
 
-  <!-- News List -->
-  <ul class="news-list"></ul>
+  <!-- Scrollable Content Wrapper -->
+  <div class="news-content-wrapper">
+    <!-- News List -->
+    <ul class="news-list"></ul>
 
-  <!-- Lazy Loading Indicator -->
-  <div class="news-loader" data-i18n="news-loader">
-    Weitere Einträge werden geladen …
+    <!-- Lazy Loading Indicator -->
+    <div class="news-loader" data-i18n="news-loader">
+      Weitere Einträge werden geladen …
+    </div>
   </div>
 
 </section>

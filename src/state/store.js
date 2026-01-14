@@ -21,7 +21,7 @@ const newsState = {
     field: "date",   // "date" | "alpha"
     direction: "desc"
   },
-  visibleCount: 50,
+  visibleCount: 40,
   lastFetchedAt: null,
 };
 
@@ -89,7 +89,7 @@ export const newsStore = {
 
     newsState.all = filtered;
     newsState.filtered = filtered;
-    newsState.visibleCount = 50;
+    newsState.visibleCount = 40;
     newsState.lastFetchedAt = Date.now();
     saveNewsToCache(filtered);
   },
@@ -108,7 +108,7 @@ export const newsStore = {
 
   setSearchTerm(term) {
     newsState.searchTerm = term.toLowerCase();
-    newsState.visibleCount = 50;
+    newsState.visibleCount = 40;
     this.applyFilters();
   },
 
@@ -117,7 +117,7 @@ export const newsStore = {
     this.applyFilters();
   },
 
-  loadMore(step = 50) {
+  loadMore(step = 40) {
     newsState.visibleCount += step;
   },
 

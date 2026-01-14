@@ -27,6 +27,6 @@ const BTC_EP = (startTime, endTime) => {
 };
 
 // Crypto News
-const CRYPTO_NEWS_EP = "https://free-crypto-news.vercel.app/api/news?limit=50";
+const CRYPTO_NEWS_EP = "https://free-crypto-news.vercel.app/api/news?limit=300";
 
 export { MSCI_EP, BTC_EP, CRYPTO_NEWS_EP };
