@@ -14,7 +14,9 @@ export async function initAuth() {
     clientId: "rJ59QPQGJcEToOnMOqgaR3BSM91PRTq5",
     authorizationParams: {
       redirect_uri: window.location.origin
-    }
+    },
+    cacheLocation: 'localstorage', // Speichert Tokens im localStorage
+    useRefreshTokens: true // Verwendet Refresh Tokens
   });
 
   // OAuth Redirect Callback
