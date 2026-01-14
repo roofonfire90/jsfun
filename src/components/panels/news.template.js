@@ -8,14 +8,14 @@ export default `
       <button
         class="sort-btn"
         data-sort="date"
-        title="Nach Datum sortieren">
+        data-i18n="news-sort-date">
         Datum ↓
       </button>
 
       <button
         class="sort-btn"
         data-sort="alpha"
-        title="Alphabetisch sortieren">
+        data-i18n="news-sort-alpha">
         A–Z
       </button>
     </div>
@@ -23,11 +23,13 @@ export default `
     <div class="search-input-wrapper">
       <input
         type="text"
+        data-i18n="news-search-placeholder"
         placeholder="Suchtext eingeben …"
         aria-label="News durchsuchen"
       />
       <button
         class="clear-search"
+        data-i18n="news-clear-label"
         aria-label="Suche leeren"
         title="Suche leeren">
         ✕
@@ -40,7 +42,7 @@ export default `
   <ul class="news-list"></ul>
 
   <!-- Lazy Loading Indicator -->
-  <div class="news-loader">
+  <div class="news-loader" data-i18n="news-loader">
     Weitere Einträge werden geladen …
   </div>
 

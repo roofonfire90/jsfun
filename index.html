@@ -23,6 +23,9 @@
         <span class="flag-de">🇩🇪</span>
         <span class="flag-en hidden">🇬🇧</span>
       </button>
+      <button id="logout-btn" class="icon-btn" aria-label="Logout">
+        <span>←</span>
+      </button>
     </div>
   </div>
 
@@ -39,18 +42,18 @@
             <div class="hero-track">
               <!-- Slide 1 -->
               <div class="hero-slide" data-slide="analysis">
-                <img src="/assets/hero/bull_vs_bear.png" alt="Analyse" />
-                <button class="hero-icon">ANALYSIS</button>
+                <img src="/assets/hero/bull_vs_bear.png" alt="Analyse" data-i18n-alt="hero-alt-analysis" />
+                <button class="hero-icon" data-i18n="hero-analysis">ANALYSE</button>
               </div>
               <!-- Slide 2 -->
               <div class="hero-slide" data-slide="news">
-                <img src="/assets/hero/crypto_news.png" alt="News" />
-                <button class="hero-icon">NEWS</button>
+                <img src="/assets/hero/crypto_news.png" alt="News" data-i18n-alt="hero-alt-news" />
+                <button class="hero-icon" data-i18n="hero-news">NEWS</button>
               </div>
               <!-- Slide 3 -->
               <div class="hero-slide" data-slide="about">
-                <img src="/assets/hero/about.png" alt="About" />
-                <button class="hero-icon">ABOUT</button>
+                <img src="/assets/hero/about.png" alt="Über uns" data-i18n-alt="hero-alt-about" />
+                <button class="hero-icon" data-i18n="hero-about">ÜBER UNS</button>
               </div>
             </div>
           </div>
@@ -72,9 +75,9 @@
 
       <!-- Tabs -->
       <div class="tabs-header">
-        <button class="tab active" data-panel="finance">Finance</button>
-        <button class="tab" data-panel="news">News</button>
-        <button class="tab" data-panel="about">About</button>
+        <button class="tab active" data-panel="finance" data-i18n="tab-finance">Finanzen</button>
+        <button class="tab" data-panel="news" data-i18n="tab-news">Neuigkeiten</button>
+        <button class="tab" data-panel="about" data-i18n="tab-about">Über uns</button>
       </div>
 
       <!-- Panel Content -->

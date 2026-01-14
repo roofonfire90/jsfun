@@ -14,7 +14,7 @@ import { initToggles } from "./app/toggles.js";
   if (!loggedIn) {
     await login();
     return; 
-
+  }
   // 4. Ab hier: User ist eingeloggt
   const user = await getUser();
   document.querySelector(".page").classList.remove("hidden");
@@ -23,4 +23,5 @@ import { initToggles } from "./app/toggles.js";
   initToggles();
   initTabs();
   initHeroCarousel();
+
 })();

@@ -5,8 +5,8 @@
     margin-top: 2rem;
     margin-bottom: 2rem;
     width: 100%;
-    padding-left: 5%;
-    padding-right: 5%;
+    padding-left: 1%;
+    padding-right: 1%;
 }
 
 .panel {
@@ -44,9 +44,6 @@
 .tabs-header {
     display: flex;
     gap: 8px;
-
-    /* wichtig für Verschmelzung */
-    margin-bottom: -1px;
 }
 
 .tab {

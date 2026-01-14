@@ -1,4 +1,5 @@
 import { renderInvestmentComparisonChart } from "../components/charts/ProfitLossChart.js";
+import { getCurrentLang, getTranslations } from "../app/toggles.js";
 
 /**
  * Initialisiert den Investment-Calculator inklusive Donut-Chart.
@@ -15,7 +16,9 @@ const initInvestmentModule = (msciSeries, btcSeries, donutContainer) => {
     const amount = Number(input.value);
 
     if (!amount || amount <= 0) {
-      result.textContent = "Bitte einen gültigen Investitionsbetrag eingeben.";
+      const lang = getCurrentLang();
+      const t = getTranslations()[lang];
+      result.textContent = t["investment-error"];
       result.classList.remove("hidden");
       return;
     }

@@ -1,5 +1,6 @@
 import Highcharts from "highcharts";
 import ErrorMessages from "../../constants/exception_messages";
+import { getCurrentLang, getTranslations } from "../../app/toggles.js";
 
 /**
  * Grouped Column Chart
@@ -17,6 +18,9 @@ const renderInvestmentComparisonChart = (
     throw new Error(ErrorMessages.MISSING_COMPARISON_CONTAINER);
   }
 
+  const lang = getCurrentLang();
+  const t = getTranslations()[lang];
+
   // ----------------------------------------------------------
   // Placeholder
   // ----------------------------------------------------------
@@ -27,9 +31,9 @@ const renderInvestmentComparisonChart = (
         backgroundColor: "transparent",
         borderWidth: 0,
       },
-      title: { text: "Investitionsvergleich" },
+      title: { text: t["chart-comparison-placeholder-title"] },
       subtitle: {
-        text: "Bitte Betrag eingeben und auswerten",
+        text: t["chart-comparison-placeholder-subtitle"],
         style: { color: "#6b7280", fontSize: "12px" },
       },
       xAxis: { categories: ["MSCI World", "Bitcoin"] },
@@ -69,11 +73,11 @@ const renderInvestmentComparisonChart = (
     },
 
     title: {
-      text: "Was wäre aus deiner Investition geworden?",
+      text: t["chart-comparison-title"],
     },
 
     subtitle: {
-      text: `Startkapital: ${investmentAmount.toLocaleString("de-DE")} €`,
+      text: `${t["chart-comparison-subtitle"]} ${investmentAmount.toLocaleString("de-DE")} €`,
     },
 
     accessibility: { enabled: false },
@@ -84,7 +88,7 @@ const renderInvestmentComparisonChart = (
 
     yAxis: {
       min: 0,
-      title: { text: "Wert (€)" },
+      title: { text: t["chart-yaxis-value"] },
     },
 
     legend: {
@@ -105,16 +109,16 @@ const renderInvestmentComparisonChart = (
       formatter() {
         const investment = investmentAmount;
         const endValue =
-          this.points.find(p => p.series.name === "Endwert")?.y ?? 0;
+          this.points.find(p => p.series.name === t["chart-endvalue"])?.y ?? 0;
 
         const profit = endValue - investment;
         const percent = (profit / investment) * 100;
 
         return `
           <b>${this.x}</b><br/>
-          Investment: ${investment.toFixed(2)} €<br/>
-          Gewinn: <b>${profit.toFixed(2)} € (${percent.toFixed(1)} %)</b><br/>
-          Endwert: <b>${endValue.toFixed(2)} €</b>
+          ${t["chart-investment"]}: ${investment.toFixed(2)} €<br/>
+          ${t["chart-profit"]}: <b>${profit.toFixed(2)} € (${percent.toFixed(1)} %)</b><br/>
+          ${t["chart-endvalue"]}: <b>${endValue.toFixed(2)} €</b>
         `;
       },
     },
@@ -124,7 +128,7 @@ const renderInvestmentComparisonChart = (
       // Investment (grau)
       // ------------------------------------------------------
       {
-        name: "Investment",
+        name: t["chart-investment"],
         color: COLOR_INVESTMENT,
         data: [
           investmentAmount,
@@ -136,7 +140,7 @@ const renderInvestmentComparisonChart = (
       // Endwert (grün)
       // ------------------------------------------------------
       {
-        name: "Endwert",
+        name: t["chart-endvalue"],
         color: COLOR_ENDVALUE,
         data: [
           {

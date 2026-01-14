@@ -10,16 +10,16 @@ export default `
       </div>
     </div>
 
-    <h2 class="about-title">
+    <h2 class="about-title" data-i18n="about-title">
       Data · Finance · Visualization
     </h2>
 
-    <p class="about-text">
+    <p class="about-text" data-i18n="about-description">
       Dieses Projekt visualisiert Finanz- und Marktdaten mit einem klaren Fokus
       auf Verständlichkeit, Vergleichbarkeit und saubere Datenpipelines.
     </p>
 
-    <p class="about-text muted">
+    <p class="about-text muted" data-i18n="about-tech">
       Technologie-Stack: Vanilla JS · Vite · Highcharts · saubere Modulstruktur
     </p>
 
