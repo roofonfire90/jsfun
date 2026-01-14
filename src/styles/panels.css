@@ -16,10 +16,15 @@
     display: none;
     border: 1px solid rgba(0, 0, 0, 0.12);
     border-top-left-radius: 0;
+    position: relative;
 }
 
 .panel.active {
   display: block;
+}
+
+.news-panel {
+  min-height: 400px;
 }
 
 #panel-content {
