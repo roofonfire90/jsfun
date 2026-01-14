@@ -14,6 +14,22 @@ const calculateInvestmentResult = (series, investmentAmount) => {
 };
 
 /**
+ * Translations
+ */
+const translations = {
+  de: {
+    finalValue: "Endwert",
+    result: "Ergebnis"
+  },
+  en: {
+    finalValue: "Final Value",
+    result: "Result"
+  }
+};
+
+let currentLang = "de";
+
+/**
  * Rendert eine Ergebnis-Karte (DOM-sicher).
  */
 const renderInvestmentCard = (title, finalValue, profit) => {
@@ -25,14 +41,14 @@ const renderInvestmentCard = (title, finalValue, profit) => {
 
   const valueRow = document.createElement("div");
   valueRow.className = "investment-card-row";
-  valueRow.innerHTML = `<span>Endwert</span><strong>${finalValue.toLocaleString("de-DE", {
+  valueRow.innerHTML = `<span data-i18n="final-value">${translations[currentLang].finalValue}</span><strong>${finalValue.toLocaleString("de-DE", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   })} €</strong>`;
 
   const resultRow = document.createElement("div");
   resultRow.className = `investment-card-row ${profit >= 0 ? "positive" : "negative"}`;
-  resultRow.innerHTML = `<span>Ergebnis</span><strong>${profit >= 0 ? "+" : ""
+  resultRow.innerHTML = `<span data-i18n="result-label">${translations[currentLang].result}</span><strong>${profit >= 0 ? "+" : ""
     }${profit.toLocaleString("de-DE", {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
@@ -84,4 +100,11 @@ const initInvestmentModule = (msciSeries, btcSeries) => {
   });
 };
 
-export { initInvestmentModule };
+/**
+ * Set language for calculator
+ */
+const setLanguage = (lang) => {
+  currentLang = lang;
+};
+
+export { initInvestmentModule, setLanguage };

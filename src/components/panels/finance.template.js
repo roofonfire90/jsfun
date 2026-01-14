@@ -13,16 +13,16 @@ export default `
     <div class="section-inner charts-row">
 
       <div class="investment-box">
-        <div class="investment-header">
+        <div class="investment-header" data-i18n="investment-title">
           Investitionsvergleich (Jahresende)
         </div>
 
         <div class="investment-input">
-          <label>Investitionsbetrag (€)</label>
+          <label data-i18n="investment-label">Investitionsbetrag (€)</label>
           <input id="investment-amount" type="number" />
         </div>
 
-        <button id="investment-calc-btn">Auswerten</button>
+        <button id="investment-calc-btn" data-i18n="investment-button">Auswerten</button>
 
         <div id="investment-result" class="investment-result hidden"></div>
       </div>

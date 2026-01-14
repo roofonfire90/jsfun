@@ -26,6 +26,58 @@ body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   background: var(--color-bg-page);
   color: var(--color-text-main);
+  transition: background-color var(--duration-fast), color var(--duration-fast);
+}
+
+/* ============================================================
+   Top Bar
+   ============================================================ */
+
+.top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  background: transparent;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 24px;
+}
+
+.top-bar-controls {
+  display: flex;
+  gap: 12px;
+}
+
+.icon-btn {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--duration-fast), transform var(--duration-fast);
+}
+
+.icon-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+body.dark-mode .icon-btn {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .icon-btn:hover {
+  background: rgba(0, 0, 0, 0.5);
 }
 
 /* ============================================================

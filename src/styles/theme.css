@@ -40,3 +40,32 @@
   --radius-sm: 6px;
   --radius-md: 12px;
 }
+
+/* ======================================================
+   DARK MODE
+   ====================================================== */
+
+body.dark-mode {
+  /* Backgrounds */
+  --color-bg-page: #111827;
+  --color-bg-panel: #1f2937;
+  --color-bg-soft: #374151;
+
+  /* Borders */
+  --color-border: #374151;
+  --color-border-soft: #4b5563;
+
+  /* Text */
+  --color-text-main: #f9fafb;
+  --color-text-muted: #d1d5db;
+  --color-text-subtle: #9ca3af;
+
+  /* Hero */
+  --color-hero-bg: #374151;
+  --color-hero-dot: #4b5563;
+  --color-hero-dot-active: #4b9fff;
+
+  /* Modal */
+  --color-modal-backdrop: rgba(0, 0, 0, 0.8);
+  --color-modal-bg: #1f2937;
+}
