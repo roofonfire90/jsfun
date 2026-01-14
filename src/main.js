@@ -1,7 +1,25 @@
 import { initTabs } from "./components/panels/tabs.js";
 import { initHeroCarousel } from "./components/hero/HeroCarousel.js";
+import { initAuth, login, getUser, isAuthenticated } from "./app/auth/auth.js";
 
-document.addEventListener("DOMContentLoaded", () => {
+(async () => {
+  // 1. Auth initialisieren (inkl. Callback-Verarbeitung)
+  await initAuth();
+
+  // 2. Login-Status prüfen
+  const loggedIn = await isAuthenticated();
+
+  // 3. NICHT eingeloggt → sofort Auth0 Login
+  if (!loggedIn) {
+    await login();
+    return; // ⛔ ganz wichtig
+  }
+
+  // 4. Ab hier: User ist eingeloggt
+  const user = await getUser();
+  console.log("User:", user);
+
+  // 5. Jetzt erst App initialisieren
   initTabs();
   initHeroCarousel();
-});
+})();

@@ -38,6 +38,10 @@ body {
   align-items: center;
 }
 
+.hidden {
+  display: none !important;
+}
+
 .section {
   width: 100%;
   padding: 40px 24px;
