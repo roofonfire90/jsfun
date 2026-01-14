@@ -34,6 +34,13 @@ const translations = {
     "chart-endvalue": "Endwert",
     "chart-profit": "Gewinn",
     
+    // Other Charts
+    "chart-msci-title": "MSCI World Index",
+    "chart-btc-title": "Bitcoin Preis",
+    "chart-comparison-line-title": "Performancevergleich (Index 100)",
+    "chart-xaxis-date": "Datum",
+    "chart-yaxis-index": "Index (100 = Start)",
+    
     // News Panel
     "news-sort-date": "Datum ↓",
     "news-sort-alpha": "A–Z",
@@ -77,6 +84,13 @@ const translations = {
     "chart-endvalue": "Final Value",
     "chart-profit": "Profit",
     
+    // Other Charts
+    "chart-msci-title": "MSCI World Index",
+    "chart-btc-title": "Bitcoin Price",
+    "chart-comparison-line-title": "Performance Comparison (Index 100)",
+    "chart-xaxis-date": "Date",
+    "chart-yaxis-index": "Index (100 = Start)",
+    
     // News Panel
     "news-sort-date": "Date ↓",
     "news-sort-alpha": "A–Z",
@@ -105,13 +119,23 @@ const initThemeToggle = () => {
   const sunIcon = themeBtn.querySelector(".icon-sun");
   const moonIcon = themeBtn.querySelector(".icon-moon");
 
-  // Check for saved preference
+  // Check for saved preference, default to dark mode
   const savedTheme = localStorage.getItem("theme");
-  if (savedTheme === "dark") {
+  if (savedTheme === "light") {
+    // Nur wenn explizit light gespeichert wurde
+    document.body.classList.remove("dark-mode");
+    isDarkMode = false;
+    sunIcon.classList.remove("hidden");
+    moonIcon.classList.add("hidden");
+  } else {
+    // Standard: Dark Mode
     document.body.classList.add("dark-mode");
     isDarkMode = true;
     sunIcon.classList.add("hidden");
     moonIcon.classList.remove("hidden");
+    if (!savedTheme) {
+      localStorage.setItem("theme", "dark");
+    }
   }
 
   themeBtn.addEventListener("click", () => {
@@ -155,6 +179,11 @@ const updateLanguage = () => {
 
   // Update calculator service language
   setLanguage(currentLang);
+
+  // Re-render Highcharts
+  import("../components/panels/financePanel.js").then(({ rerenderFinanceCharts }) => {
+    rerenderFinanceCharts();
+  });
 
   // Re-render investment results if they exist
   const calcBtn = document.getElementById("investment-calc-btn");

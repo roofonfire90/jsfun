@@ -10,6 +10,24 @@ import { initInvestmentModule } from "../../services/calculationService.js";
 import ErrorMessages from "../../constants/exception_messages.js";
 
 let initialized = false;
+let chartData = null; // Speichere Chart-Daten für Re-Render
+let containers = null; // Speichere Container-Referenzen
+
+/**
+ * Re-rendert alle Charts (z.B. bei Sprachwechsel)
+ */
+export const rerenderFinanceCharts = () => {
+  if (!chartData || !containers) return;
+  
+  const { msci, btc, msciIndex, btcIndex } = chartData;
+  const { msciContainer, btcContainer, comparisonLineContainer, donutContainer } = containers;
+  
+  renderMSCIChart(msciContainer, msci);
+  renderBitcoinChart(btcContainer, btc);
+  renderComparisonChart(comparisonLineContainer, btcIndex, msciIndex);
+  
+  // Investment Chart wird über den Button neu gerendert
+};
 
 /**
  * Initialisiert das Finance-Panel.
@@ -65,6 +83,10 @@ export const initFinancePanel = async (panelRoot) => {
     const donutContainer = panelRoot.querySelector("#comparison-donut-chart");
     if (!donutContainer)
       throw new Error(ErrorMessages.MISSING_COMPARISON_CONTAINER);
+
+    // Speichere Daten und Container für Re-Render
+    chartData = { msci, btc, msciIndex, btcIndex };
+    containers = { msciContainer, btcContainer, comparisonLineContainer, donutContainer };
 
     // --------------------------------------------------
     // 5. Charts rendern

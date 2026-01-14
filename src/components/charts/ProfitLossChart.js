@@ -21,6 +21,21 @@ const renderInvestmentComparisonChart = (
   const lang = getCurrentLang();
   const t = getTranslations()[lang];
 
+  // Setze Highcharts Sprache für Datum/Monate
+  Highcharts.setOptions({
+    lang: {
+      months: lang === 'de' 
+        ? ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember']
+        : ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+      shortMonths: lang === 'de'
+        ? ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez']
+        : ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+      weekdays: lang === 'de'
+        ? ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag']
+        : ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+    }
+  });
+
   // ----------------------------------------------------------
   // Placeholder
   // ----------------------------------------------------------

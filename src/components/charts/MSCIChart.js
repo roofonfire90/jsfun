@@ -1,5 +1,6 @@
 import Highcharts from "highcharts";
 import ErrorMessages from "../../constants/exception_messages";
+import { getCurrentLang, getTranslations } from "../../app/toggles.js";
 
 /**
  * Rendert den MSCI World Einzelchart.
@@ -26,6 +27,24 @@ const renderMSCIChart = (container, series) => {
     throw new Error(ErrorMessages.MSCI_DATA_LOAD_FAIL);
   }
 
+  const lang = getCurrentLang();
+  const t = getTranslations()[lang];
+
+  // Setze Highcharts Sprache für Datum/Monate
+  Highcharts.setOptions({
+    lang: {
+      months: lang === 'de' 
+        ? ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember']
+        : ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+      shortMonths: lang === 'de'
+        ? ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez']
+        : ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+      weekdays: lang === 'de'
+        ? ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag']
+        : ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+    }
+  });
+
   Highcharts.chart(container, {
     // Chart-Grundkonfiguration
     chart: {
@@ -34,7 +53,7 @@ const renderMSCIChart = (container, series) => {
     },
     
     title: {
-      text: "MSCI World Index",
+      text: t["chart-msci-title"],
     },
 
     accessibility: {
@@ -45,13 +64,13 @@ const renderMSCIChart = (container, series) => {
     xAxis: {
       type: "datetime",
       title: {
-        text: "Datum",
+        text: t["chart-xaxis-date"],
       },
     },
 
     yAxis: {
       title: {
-        text: series.unit,
+        text: "USD",
       },
     },
 

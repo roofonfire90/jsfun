@@ -1,5 +1,6 @@
 import Highcharts from "highcharts";
 import ErrorMessages from "../../constants/exception_messages";
+import { getCurrentLang, getTranslations } from "../../app/toggles.js";
 
 /**
  * Rendert den Bitcoin-Einzelchart (Rohdaten).
@@ -16,6 +17,24 @@ const renderBitcoinChart = (container, series) => {
     throw new Error(ErrorMessages.BTC_DATA_LOAD_FAIL);
   }
 
+  const lang = getCurrentLang();
+  const t = getTranslations()[lang];
+
+  // Setze Highcharts Sprache für Datum/Monate
+  Highcharts.setOptions({
+    lang: {
+      months: lang === 'de' 
+        ? ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember']
+        : ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+      shortMonths: lang === 'de'
+        ? ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez']
+        : ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+      weekdays: lang === 'de'
+        ? ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag']
+        : ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+    }
+  });
+
   Highcharts.chart(container, {
     // Chart-Grundkonfiguration
     chart: {
@@ -24,7 +43,7 @@ const renderBitcoinChart = (container, series) => {
     },
     
     title: {
-      text: "Bitcoin Price (USDC)",
+      text: t["chart-btc-title"],
     },
 
     accessibility: {
@@ -35,7 +54,7 @@ const renderBitcoinChart = (container, series) => {
     xAxis: {
       type: "datetime",
       title: {
-        text: "Datum",
+        text: t["chart-xaxis-date"],
       },
     },
 
