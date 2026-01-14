@@ -40,11 +40,13 @@
   background: transparent;
   font-size: 1rem;
   cursor: pointer;
-  opacity: 0.5;
+  color: var(--color-text-muted);
+  opacity: 0.7;
 }
 
 .search-input-wrapper .clear-search:hover {
-  opacity: 0.8;
+  opacity: 1;
+  color: var(--color-text-main);
 }
 
 .clear-search {
@@ -53,11 +55,13 @@
   background: transparent;
   font-size: 1.2rem;
   cursor: pointer;
-  opacity: 0.5;
+  color: var(--color-text-muted);
+  opacity: 0.7;
 }
 
 .clear-search:hover {
-  opacity: 0.8;
+  opacity: 1;
+  color: var(--color-text-main);
 }
 
 /* ======================================================
