@@ -46,6 +46,9 @@ const renderInvestmentComparisonChart = (
         backgroundColor: "transparent",
         borderWidth: 0,
       },
+      credits: {
+        enabled: false
+      },
       title: { text: t["chart-comparison-placeholder-title"] },
       subtitle: {
         text: t["chart-comparison-placeholder-subtitle"],
@@ -87,6 +90,10 @@ const renderInvestmentComparisonChart = (
       borderWidth: 0,
     },
 
+    credits: {
+      enabled: false
+    },
+
     title: {
       text: t["chart-comparison-title"],
     },
@@ -109,6 +116,9 @@ const renderInvestmentComparisonChart = (
     legend: {
       align: "center",
       verticalAlign: "bottom",
+      itemStyle: {
+        color: '#e5e7eb'
+      }
     },
 
     plotOptions: {

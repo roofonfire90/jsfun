@@ -52,12 +52,22 @@ const renderMSCIChart = (container, series) => {
       borderWidth: 0,
     },
     
+    credits: {
+      enabled: false // Entfernt "highcharts.com"
+    },
+    
     title: {
       text: t["chart-msci-title"],
     },
 
     accessibility: {
       enabled: false,
+    },
+
+    legend: {
+      itemStyle: {
+        color: '#e5e7eb' // Hellerer Text für Legende
+      }
     },
 
     // Achsen

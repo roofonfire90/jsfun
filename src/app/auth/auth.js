@@ -89,5 +89,9 @@ function clearAuth0Storage() {
   Object.keys(localStorage)
     .filter(k => k.startsWith("auth0"))
     .forEach(k => localStorage.removeItem(k));
+  
+  // Clear news cache
+  localStorage.removeItem("crypto-news-cache");
+  
   sessionStorage.clear();
 }

@@ -42,12 +42,22 @@ const renderBitcoinChart = (container, series) => {
       borderWidth: 0,
     },
     
+    credits: {
+      enabled: false
+    },
+    
     title: {
       text: t["chart-btc-title"],
     },
 
     accessibility: {
       enabled: false,
+    },
+
+    legend: {
+      itemStyle: {
+        color: '#e5e7eb'
+      }
     },
 
     // Achsen

@@ -1,6 +1,7 @@
 import { fetchCryptoNews } from "../../api/newsApi.js";
 import { newsStore } from "../../state/store.js";
 import { renderNewsList } from "./newsRenderer.js";
+import { getCurrentLang, getTranslations } from "../../app/toggles.js";
 
 let initialized = false;
 
@@ -18,14 +19,21 @@ export async function initNewsPanel(panelRoot) {
   const input    = panelRoot.querySelector(".news-search input");
   const clearBtn = panelRoot.querySelector(".clear-search");
   const loader   = panelRoot.querySelector(".news-loader");
+  const loadingIndicator = panelRoot.querySelector(".news-loading");
   const sortBtns = panelRoot.querySelectorAll(".sort-btn");
 
   /* --------------------------------------------------
      1. Daten laden (Cache → Fetch)
      -------------------------------------------------- */
   if (!newsStore.hydrateFromCache()) {
+    // Show loading animation
+    loadingIndicator.classList.remove("hidden");
+    
     const articles = await fetchCryptoNews();
     newsStore.setNews(articles);
+    
+    // Hide loading animation
+    loadingIndicator.classList.add("hidden");
   }
 
   render();
@@ -49,36 +57,43 @@ export async function initNewsPanel(panelRoot) {
      -------------------------------------------------- */
   sortBtns.forEach(btn => {
     btn.addEventListener("click", () => {
+      console.log("Sort button clicked:", btn.dataset.sort);
       const field = btn.dataset.sort;
-      const current = newsStore.getMeta();
+      const currentSort = newsStore.getMeta().sort;
 
-      // Richtung bestimmen
-      let direction = "asc";
-      if (field === "date") direction = "desc";
-
-      // Toggle bei erneutem Klick
-      if (
-        newsStore.getMeta().sort?.field === field &&
-        newsStore.getMeta().sort?.direction === direction
-      ) {
-        direction = direction === "asc" ? "desc" : "asc";
+      // Toggle direction if clicking the same field again
+      let direction;
+      if (currentSort.field === field) {
+        // Toggle existing direction
+        direction = currentSort.direction === "asc" ? "desc" : "asc";
+      } else {
+        // New field: set default direction
+        direction = field === "date" ? "desc" : "asc";
       }
 
       newsStore.setSort(field, direction);
+      console.log("Sort set to:", field, direction);
 
       // UI-State
       sortBtns.forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
 
-      // Button-Label
+      // Button-Label mit Übersetzungen
+      const lang = getCurrentLang();
+      const dateAsc = lang === 'de' ? 'Datum ↑' : 'Date ↑';
+      const dateDesc = lang === 'de' ? 'Datum ↓' : 'Date ↓';
+      const alphaAsc = 'A–Z';
+      const alphaDesc = 'Z–A';
+
       if (field === "date") {
-        btn.textContent = direction === "asc" ? "Datum ↑" : "Datum ↓";
+        btn.textContent = direction === "asc" ? dateAsc : dateDesc;
       }
 
       if (field === "alpha") {
-        btn.textContent = direction === "asc" ? "A–Z" : "Z–A";
+        btn.textContent = direction === "asc" ? alphaAsc : alphaDesc;
       }
 
+      console.log("Rendering after sort...");
       render();
     });
   });

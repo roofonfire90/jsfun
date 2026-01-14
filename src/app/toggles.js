@@ -48,6 +48,7 @@ const translations = {
     "news-search-label": "News durchsuchen",
     "news-clear-label": "Suche leeren",
     "news-loader": "Weitere Einträge werden geladen …",
+    "news-loading": "News werden geladen",
     
     // About Panel
     "about-title": "Data · Finance · Visualization",
@@ -98,6 +99,7 @@ const translations = {
     "news-search-label": "Search news",
     "news-clear-label": "Clear search",
     "news-loader": "Loading more entries …",
+    "news-loading": "Loading news",
     
     // About Panel
     "about-title": "Data · Finance · Visualization",

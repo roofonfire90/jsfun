@@ -79,11 +79,19 @@ export const newsStore = {
   },
 
   setNews(articles) {
-    newsState.all = articles;
-    newsState.filtered = articles;
+    // Filter out articles with titles starting with special characters
+    const filtered = articles.filter(article => {
+      if (!article.title) return false;
+      const firstChar = article.title.trim()[0];
+      // Allow only letters (any language) and numbers at the start
+      return /^[\p{L}\p{N}]/u.test(firstChar);
+    });
+
+    newsState.all = filtered;
+    newsState.filtered = filtered;
     newsState.visibleCount = 50;
     newsState.lastFetchedAt = Date.now();
-    saveNewsToCache(articles);
+    saveNewsToCache(filtered);
   },
 
   /* ---------- Query ---------- */
@@ -134,12 +142,20 @@ export const newsStore = {
       if (field === "alpha") {
         v1 = a.title.toLowerCase();
         v2 = b.title.toLowerCase();
+        
+        // String-Vergleich: localeCompare
+        if (direction === "asc") {
+          return v1.localeCompare(v2);
+        } else {
+          return v2.localeCompare(v1);
+        }
       } else {
+        // Datum: numerischer Vergleich
         v1 = new Date(a.pubDate).getTime();
         v2 = new Date(b.pubDate).getTime();
+        
+        return direction === "asc" ? v1 - v2 : v2 - v1;
       }
-
-      return direction === "asc" ? v1 - v2 : v2 - v1;
     });
 
     newsState.filtered = result;
@@ -153,6 +169,7 @@ export const newsStore = {
       filtered: newsState.filtered.length,
       visible: Math.min(newsState.visibleCount, newsState.filtered.length),
       lastFetchedAt: newsState.lastFetchedAt,
+      sort: newsState.sort,
     };
   }
 };

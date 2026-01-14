@@ -55,12 +55,22 @@ const renderComparisonChart = (container, btcIndex, msciIndex) => {
       borderWidth: 0,
     },
     
+    credits: {
+      enabled: false
+    },
+    
     title: {
       text: t["chart-comparison-line-title"],
     },
 
     accessibility: {
       enabled: false,
+    },
+
+    legend: {
+      itemStyle: {
+        color: '#e5e7eb'
+      }
     },
 
     // Achsen
@@ -73,7 +83,7 @@ const renderComparisonChart = (container, btcIndex, msciIndex) => {
 
     yAxis: {
       title: {
-        text: t["chart-yaxis-index"],
+        text: "USD",
       },
     },
 
