@@ -90,6 +90,7 @@ import { initToggles } from "./app/toggles.js";
   console.log("User:", user);
 
   document.querySelector(".page").classList.remove("hidden");
+  document.querySelector(".top-bar").classList.remove("hidden");
 
   initToggles();
   initTabs();
