@@ -25,6 +25,13 @@ export default `
         data-sort="alpha">
         A–Z
       </button>
+
+      <button
+        class="refresh-btn"
+        aria-label="News aktualisieren"
+        title="News aktualisieren">
+        ↻
+      </button>
     </div>
 
     <div class="search-input-wrapper">

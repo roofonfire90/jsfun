@@ -266,6 +266,42 @@ body.dark-mode .news-content-wrapper {
   color: var(--color-text-main);
 }
 
+/* Refresh Button */
+.refresh-btn {
+  padding: 8px 10px;
+  font-size: 0.95rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-panel);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.refresh-btn:hover {
+  color: var(--color-text-main);
+  border-color: var(--color-primary);
+}
+
+.refresh-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.refresh-btn.loading {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 
 /* ======================================================
    Lazy Loader

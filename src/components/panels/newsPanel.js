@@ -21,6 +21,7 @@ export async function initNewsPanel(panelRoot) {
   const loader   = panelRoot.querySelector(".news-loader");
   const loadingIndicator = panelRoot.querySelector(".news-loading");
   const sortBtns = panelRoot.querySelectorAll(".sort-btn");
+  const refreshBtn = panelRoot.querySelector(".refresh-btn");
   const scrollContainer = panelRoot.querySelector(".news-content-wrapper");
 
   /* --------------------------------------------------
@@ -40,21 +41,66 @@ export async function initNewsPanel(panelRoot) {
   render();
 
   /* --------------------------------------------------
-     2. Suche
+     2. Suche (mit Debouncing)
      -------------------------------------------------- */
+  let searchTimeout = null;
   input.addEventListener("input", () => {
-    newsStore.setSearchTerm(input.value);
-    render();
+    // Clear previous timeout
+    if (searchTimeout) {
+      clearTimeout(searchTimeout);
+    }
+    
+    // Debounce: wait 300ms after user stops typing
+    searchTimeout = setTimeout(() => {
+      newsStore.setSearchTerm(input.value);
+      render();
+      searchTimeout = null;
+    }, 300);
   });
 
   clearBtn.addEventListener("click", () => {
+    // Clear any pending search timeout
+    if (searchTimeout) {
+      clearTimeout(searchTimeout);
+      searchTimeout = null;
+    }
+    
     input.value = "";
     newsStore.setSearchTerm("");
     render();
   });
 
   /* --------------------------------------------------
-     3. Sortierung
+     3. Refresh
+     -------------------------------------------------- */
+  refreshBtn.addEventListener("click", async () => {
+    // Disable button during refresh
+    refreshBtn.disabled = true;
+    refreshBtn.classList.add("loading");
+    
+    // Show loading animation
+    loadingIndicator.classList.remove("hidden");
+    
+    try {
+      // Clear cache and fetch fresh data
+      newsStore.clearCache();
+      const articles = await fetchCryptoNews();
+      newsStore.setNews(articles);
+      render();
+    } catch (error) {
+      console.error("Failed to refresh news:", error);
+    } finally {
+      // Hide loading animation
+      loadingIndicator.classList.add("hidden");
+      
+      // Re-enable button
+      refreshBtn.disabled = false;
+      refreshBtn.classList.remove("loading");
+    }
+  });
+
+  /* --------------------------------------------------
+     4. Sortierung
      -------------------------------------------------- */
   sortBtns.forEach(btn => {
     btn.addEventListener("click", () => {
@@ -100,7 +146,7 @@ export async function initNewsPanel(panelRoot) {
   });
 
   /* --------------------------------------------------
-     4. Accordion (Event Delegation)
+     5. Accordion (Event Delegation)
      -------------------------------------------------- */
   listEl.addEventListener("click", e => {
     const title = e.target.closest(".news-title");
@@ -109,7 +155,7 @@ export async function initNewsPanel(panelRoot) {
   });
 
   /* --------------------------------------------------
-     5. Lazy Loading (Throttled)
+     6. Lazy Loading (Throttled)
      -------------------------------------------------- */
   let scrollTimeout = null;
   scrollContainer.addEventListener("scroll", () => {
@@ -131,7 +177,7 @@ export async function initNewsPanel(panelRoot) {
   });
 
   /* --------------------------------------------------
-     6. Render
+     7. Render
      -------------------------------------------------- */
   function render() {
     const visible = newsStore.getVisible();

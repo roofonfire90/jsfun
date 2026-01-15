@@ -94,6 +94,17 @@ export const newsStore = {
     saveNewsToCache(filtered);
   },
 
+  clearCache() {
+    try {
+      localStorage.removeItem(NEWS_CACHE_KEY);
+      newsState.all = [];
+      newsState.filtered = [];
+      newsState.visibleCount = 40;
+    } catch (e) {
+      console.error("Failed to clear cache:", e);
+    }
+  },
+
   /* ---------- Query ---------- */
 
   getVisible() {
